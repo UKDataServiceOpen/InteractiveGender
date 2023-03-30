@@ -1,0 +1,401 @@
+---
+title: "Preliminary LISA map for SO"
+output: html_document
+date: "2023-01-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(janitor)
+library(ggmap)
+library(mapview)
+library(sf)
+library(readxl)
+library(janitor)
+library(tmap)
+library(dplyr)
+library(sp)
+library(spdep)
+library(ggplot2)
+library(ggspatial)
+
+
+```
+
+
+
+## Read in SO data
+
+```{r}
+so <- read_csv("Data/SO_renamed.csv") %>% 
+  clean_names()
+
+#Delete 'Does not apply' apply category
+so <- so %>%
+  subset(so_code > 0) 
+```
+
+There are 331 Lower Tier Local Authorities from England and Wales
+
+
+## Read in LT Local Authority (shapefile)
+
+```{r}
+#Load the shapefile
+shapefile <- st_read("Shapefiles/LAD_DEC_2022_UK_BFC.shp") %>% clean_names()
+#change column name of LSOA code to match the LSOA code column in the SO polygon data
+colnames(shapefile)[which(names(shapefile) == "lad22cd")] <- "la_code"
+
+#check crs 
+st_crs(shapefile)
+
+#lets transform it to the correct crs
+shapefile <- st_transform(shapefile, 4326)
+
+#check the crs again 
+st_crs(shapefile)
+
+ggplot() + 
+  geom_sf(data = shapefile)
+
+
+
+
+```
+
+
+
+
+## Read in census data
+
+```{r}
+
+pop <- read_excel("Data/Census_EW_2021.xlsx", sheet = "P01") %>% 
+  clean_names() %>%
+  slice(10:382) %>%
+  rename("la_code" = p01_census_2021_usual_resident_population_by_sex_local_authorities_in_england_and_wales_note_1,
+           "la_name" = x2, 
+         "total_pop" = x3)
+  
+pop$total_pop <- as.numeric(pop$total_pop)
+
+# Remove the regions
+remove.list <- paste(c("England", "North West", "North East", "Yorkshire and The Humber", "East Midlands", "West Midlands", "East of England", "London", "South East", "South West", "Wales"), collapse = "|")
+
+df %>% 
+  filter(!grepl(remove.list, area_name))
+
+head(pop)
+```
+
+
+
+## Read in distracts 
+
+```{r}
+region <- read_csv("la_to_region.csv") %>%
+  rename("la_code" = LAD22CD, 
+         "la_name" = LAD22NM,
+         "reg_code" = RGN22CD,
+         "reg_name" = RGN22NM)
+```
+
+
+
+
+Lets merge the datasets together
+
+
+```{r}
+la_so <- merge(shapefile, so, by = "la_code")
+
+## Add the pop data
+la_so <- merge(la_so, pop, by = "la_code")
+
+# Add the region data
+la_so <- merge(la_so, region, by = "la_code") 
+
+head(la_so)
+```
+
+
+
+Create a new variable for rates?
+
+
+```{r}
+la_so <- la_so %>% 
+  mutate(so_rate = (observation/total_pop*1000))
+
+head(la_so)
+```
+
+
+
+## Basic Plot
+
+```{r}
+ggplot(so, aes(x = so_categories, y = observation)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  theme_minimal() + 
+  scale_fill_brewer(type = "qual", palette = 3, name = "Outcome")
+
+```
+
+
+
+## Chlorpleth Map 
+
+```{r}
+# Create choropleth map of gender identity distribution
+ggplot(la_so) +
+  geom_sf(aes(fill = `so_categories`)) +
+  scale_fill_viridis_d() + # choose a color scheme
+  labs(title = "Gender Identity Distribution by LSOA")
+```
+
+
+
+
+## Chlorpleth Map (just three categories, straights vs non-straights and non-resp)
+
+```{r}
+so_2 <- so %>%
+  mutate(so_cat = ifelse(so_categories %in% c("All other sexual orientations", "Does not apply", "Bisexual", "Gay or Lesbian"), "Other", so_categories)) %>%
+  group_by(la_code, so_cat) %>%
+  summarize(observation = sum(observation), .groups = "drop")
+  
+#merge sf and pop data
+la_so2 <- merge(shapefile, so_2, by = "la_code")
+la_so2 <- merge(la_so2, pop, by = "la_code")
+
+#quick bar plot
+ggplot(so_2, aes(x = so_cat, y = observation)) + 
+  geom_bar(stat = "identity") + 
+  coord_flip() + 
+  theme_minimal() + 
+  scale_fill_brewer(type = "qual", palette = 3, name = "Outcome")
+
+#quick map
+ggplot(la_so2) +
+  geom_sf(aes(fill = `so_cat`)) +
+  scale_fill_viridis_d() + # choose a color scheme
+  labs(title = "SO Distribution by LA")
+
+
+```
+
+
+
+## Make seperate sfs for each category??
+
+```{r}
+# create three seperate sf objects for the three main catergories
+straight <- filter(la_so, so_categories == "Straight or Heterosexual")
+not_straight <- filter(la_so, so_categories == c("Gay or Lesbian", "Bisexual", "All other sexual orientation"))
+non_response <- filter(la_so, so_categories == "Not answered")
+```
+
+
+
+
+```{r}
+#Plot with ggplot
+ggplot() + 
+  annotation_map_tile() +  # add basemap
+geom_sf(data = la_so, aes(fill = observation), alpha = 0.7) + # alpha sets the opacity
+  scale_fill_gradient2(name ="Number of straights") #use scale_fill_gradient2() for a different palette and name the variable on the legend
+
+#Plot with tmap
+tm_shape(so) + 
+  tm_fill("observation", style = "quantile", palette = "Reds") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Straight counts", main.title.size = 0.7 ,
+            legend.position = c("right", "bottom"), legend.title.size = 0.8) +
+  tmap_options(check.and.fix = TRUE)
+
+#Thematic maps 
+tm_shape(so) + 
+  tm_polygons("observation")
+
+
+# which geometries are invalid and why?
+st_is_valid(so, reason = TRUE)
+  # true to make valid
+  shapefile.fix <- st_make_valid(so)
+      # test to see if shape is valid
+      st_is_valid(so, reason = TRUE)
+      
+      
+## interactive maps leaflet 
+library(leaflet)
+la_so$lat <- as.numeric(la_so$lat)
+la_so$long <- as.numeric(la_so$long)
+
+m <- leaflet(data = la_so) %>%
+  addProviderTiles("Stamen.Toner") %>% 
+  addMarkers(lng=~long, lat=~lat, popup=~as.character(la_name), label = ~as.character(la_name))
+m      
+
+```
+
+
+
+
+
+
+## LISA maps 
+
+You need to have three things in place before analyzing LISA clusters:
+
+- spatial neighbors (read up on queen and rook approach; queen is the default); implemented via sfweight::st_neighbors()
+- spatial weights, implemented via sfweight::st_weights() with the neighbors as argument
+- spatial lag of a variable, implemented via sfweight::st_lag(), with neigbors and weights as additional arguments
+
+
+```{r}
+library(sf)
+library(dplyr)
+install.packages("sfweight")
+library(sfweight) # 
+#remotes::install_github("Josiahparry/sfweight")
+library(ggplot2)
+
+
+#Methods 1 
+
+# calucualte the lisa groups
+shape_lisa <- lsoas_gender %>% 
+  mutate(nb = st_neighbors(geometry),
+         wts = st_weights(nb),
+         lag_SID79 = st_lag(SID79, nb, wts),
+         lisa = categorize_lisa(SID79, lag_SID79))
+
+
+## This creates invalid geometries for some reason 
+# check validity of geometries
+validity <- st_is_valid(lsoas_gender)
+
+# identify the invalid geometries
+invalid <- lsoas_gender[!validity,]
+invalid
+
+# attempt to fix invalid geometries
+lsoas_gender <- st_make_valid(lsoas_gender)
+
+
+#Method 2
+
+st_crs(la_so)
+
+tm_shape(straight) + 
+  tm_fill("observation", style = "quantile", palette = "Reds") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Burglary counts", main.title.size = 0.7 ,
+            legend.position = c("right", "bottom"), legend.title.size = 0.8) +
+  tmap_options(check.and.fix = TRUE)
+
+
+
+#turn sf into sp object
+st_is_valid(straight)
+straight <- st_make_valid(straight)
+
+
+sp <- as(straight, "Spatial")
+class(la_so2$la_code)
+
+sp$la_code
+
+w <- poly2nb(sp, row.names=sp$la_code)
+
+
+problem <- st_geometry(straight[6])
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## LISA map 
+
+```{r}
+
+# Create a spatial weights matrix
+lsoa_w <- poly2nb(merged_data, queen = TRUE)
+lsoa_w <- nb2listw(lsoa_w)
+
+# Calculate the local indicators of spatial autocorrelation (LISA)
+lisa_res <- localmoran(merged_data$gender_identity_category, lsoa_w)
+
+# Create a LISA map
+tm_shape(merged_data) +
+  tm_polygons(col = "gender_identity_category", style = "jenks") +
+  tm_borders() +
+  tm_layout(legend.show = TRUE, legend.outside = TRUE) +
+  tm_shape(merged_data) +
+  tm_text("lisa_cluster", root = "Cluster ") +
+  tm_add_legend(title = "Gender Identity Category", labels = c("Same as Birth Sex", "Different from Birth Sex", "Trans Women", "Trans Men", "All Others", "Not Answered"), col = c("red", "blue", "green", "purple", "orange", "gray"), values = "fill", position = c("right", "bottom"))
+```
+
+
+The main challenge with creating a LISA map for a large area like England is that the spatial weights matrix required to calculate the local indicators of spatial autocorrelation (LISA) becomes quite large and computationally intensive. This can make the analysis slow and memory-intensive, especially if you are using a high-resolution shapefile with a large number of polygons.
+
+One way to address this issue is to use a coarser resolution shapefile, such as one that aggregates the LSOAs into larger administrative units like local authorities or counties. This can help reduce the computational burden while still providing some information about the spatial patterns of gender identity categories.
+
+Another approach is to use a spatial clustering algorithm, such as k-means or hierarchical clustering, to group the LSOAs into spatially coherent clusters based on their gender identity categories. This can provide a more concise summary of the spatial patterns of gender identity categories, while also reducing the computational complexity of the analysis.
+
+
+```{r}
+
+# Convert the gender identity categories to binary variables
+library(tidyr)
+gender_vars <- merged_data %>%
+  select(la_code, starts_with("gender_identity")) %>%
+  pivot_wider(names_from = c(
+    "gender_identity_same_as_birth_sex",
+    "gender_identity_diff_from_birth_sex",
+    "trans_women",
+    "trans_men",
+    "all_others",
+    "not_answered"
+  ), values_from = "value") %>%
+  mutate_all(funs(ifelse(is.na(.), 0, 1))) %>%
+  select(-la_code)
+
+#select only GI cats 
+gender_data <- merged_data[, 13]
+
+# Create a distance matrix based on the gender identity categories
+dist_mat <- dist(merged_data[, 1:3], method = "euclidean")
+
+# Run hierarchical clustering on the distance matrix
+hc_res <- hclust(as.dist(dist_mat), method = "ward.D2")
+
+# Cut the dendrogram into clusters
+clusters <- cutree(hc_res, k = 5)
+
+# Add cluster membership to the merged data
+merged_data$cluster <- clusters
+
+# Create a map of the clusters
+tm_shape(merged_data) +
+  tm_polygons(col = "cluster", palette = "Set1", style = "quantile", n = 5) +
+  tm_borders() +
+  tm_layout(legend.show = TRUE, legend.outside = TRUE) +
+  tm_add_legend(title = "Cluster", labels = c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5"), col = c("blue", "red", "green", "purple", "orange"), values = "fill", position = c("right", "bottom"))
+
+```
+
+
