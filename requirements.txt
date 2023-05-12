@@ -1,6 +1,0 @@
-bokeh
-jupyter
-pandas
-numpy
-seaborn
-matplotlib
