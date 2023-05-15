@@ -21,8 +21,7 @@ from bokeh.plotting import figure
 
 import numpy as np
 
-from bokeh.resources import Resources
-resources = Resources(mode="inline", components=['bokeh','bokeh-widgets'])
+os.environ['BOKEH_RESOURCES'] = "inline"
 
 #  Read-in the pre-processed data
 current_dir = os.getcwd()
