@@ -21,6 +21,9 @@ from bokeh.plotting import figure
 
 import numpy as np
 
+from bokeh.resources import Resources
+resources = Resources(mode="inline", components=['bokeh','bokeh-widgets'])
+
 #  Read-in the pre-processed data
 current_dir = os.getcwd()
 data_dir = os.path.join(current_dir, 'Data')
