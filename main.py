@@ -484,12 +484,9 @@ final_layout.margin = (30, 30, 30, 30)
 
 from bokeh.layouts import grid
 
-grid_layout = grid([
-    [layout1, layout2],
-    [column(select_religion, p8), column(select_religion_2, p9)],
-    [column(layout_1, layout_2), column(layout_3, layout_4)]
-], sizing_mode='stretch_both')
+r = column(layout, final_layout)
+r.margin = (30, 30, 30, 30)  # Add margin to the final layout
+curdoc().add_root(r)
 
-curdoc().add_root(grid_layout)
 
 
