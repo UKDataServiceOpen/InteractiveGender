@@ -473,7 +473,7 @@ rel_2['selected_percentages'] = rel_2['Group_Percentages_Christian']
 source_new = ColumnDataSource(rel_2)
 
 # Create figure for the new dataset
-p9 = figure(title="Relationship between % of religious group in given LA, and their non-response rate (new dataset)",
+p9 = figure(title="Relationship between % of religious group in given LA, and their non-response rate",
             y_axis_label="Non-response Rate", x_axis_label="Percentage of religious group in given LA", tooltips=tool)
 
 # Scatter plot for the new dataset
