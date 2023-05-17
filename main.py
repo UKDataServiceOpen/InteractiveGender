@@ -394,7 +394,6 @@ default_description_2 = Div(text="""
 <ul>
     <li><b>Sort data:</b> Click on a column header to sort the data in ascending order, click again to sort in descending order.</li>
     <li><b>Resize columns:</b> Click and drag the border between two column headers to adjust their width.</li>
-    <li><b>Scroll vertically:</b> Use the scrollbar on the right side of the DataTable to navigate through the data.</li>
     <li><b>Dropdown selection:</b> Choose a religious group from the dropdown menu to change the data displayed in the scatterplot and highlight the corresponding rows in the DataTable.</li>
 </ul>
 """, width=500)
