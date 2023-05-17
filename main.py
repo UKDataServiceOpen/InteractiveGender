@@ -161,7 +161,7 @@ p3.add_layout(color_bar, 'right')
 p4 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
            y_axis_label = "Non_response rate", tooltips = tool)
 
-p4.scatter("Percentage", "Non-response_rate", source=source2, fill_alpha=0.5, size=10)
+p4.scatter("Percentage", "Non_response_rate", source=source2, fill_alpha=0.5, size=10)
 
 # Plot 1 (By Region)
 p5 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
@@ -220,6 +220,27 @@ p7.add_layout(color_bar, 'right')
 dropdown = Select(title="Color By:", value="None", options=["Default", "Region", "Urban", "Shannon Index"])
 dropdown2 = Select(title="Color By:", value="None", options=["Default", "Region", "Urban", "Shannon Index"])
 
+default_description = Div(text="""
+<h2>Interaction Tips:</h2>
+<ul>
+    <li><b>Pan:</b> Click and drag the plot area to pan the view.</li>
+    <li><b>Zoom in/out:</b> Scroll up/down with the mouse wheel to zoom in/out.</li>
+    <li><b>Box zoom:</b> Click the "Box Zoom" tool in the toolbar, then click and drag a rectangle on the plot area to zoom into a specific region. Press the "Reset" tool to reset the view.</li>
+    <li><b>Toggle legend items:</b> Click on the legend items to toggle the visibility of the corresponding data points. Clicking them again will make the data points visible.</li>
+    <li><b>Hover:</b> Hover the mouse cursor over data points to see tooltips with additional information.</li>
+</ul>
+""", width=500)
+
+shannon_description = Div(text="""<h3>Shannon Index</h3>
+<p>The Shannon Index is a measure of diversity within a community. In this context, it is used to measure religious diversity. The index quantifies the uncertainty in predicting the religious affiliation of a randomly chosen individual from the community. A higher Shannon Index indicates greater diversity.</p>""",
+width=300, height=200, css_classes=["shannon-description"])
+
+urban_description = Div(text="""<h3>Urban-Rural Classification</h3>
+<p>The Office for National Statistics (ONS) classifies Local Authorities into urban and rural categories. The classification is based on population density, settlement patterns, and the extent of the built-up area.</p>
+<p>For more details on the classification system, visit the <a href="https://www.ons.gov.uk/methodology/geography/geographicalproducts/ruralurbanclassifications" target="_blank">ONS website</a>.</p>""",
+width=300, height=200, css_classes=["urban-description"])
+
+
 # Define the update function
 def update_scatterplots(attr, old, new):
     if dropdown.value == "Default":
@@ -227,6 +248,9 @@ def update_scatterplots(attr, old, new):
         p1.visible = False
         p_2.visible = False
         p3.visible = False
+        default_description.visible = True
+        shannon_description.visible = False
+        urban_description.visible = False
     elif dropdown.value == "Region":
         p0.visible = False
         p1.visible = True
@@ -237,12 +261,17 @@ def update_scatterplots(attr, old, new):
         p1.visible = False
         p_2.visible = True
         p3.visible = False
+        default_description = False
+        shannon_description.visible = False
+        urban_description.visible = True
     elif dropdown.value == "Shannon Index":
         p0.visible = False
         p1.visible = False
         p_2.visible = False
         p3.visible = True
-        
+        default_description.visible = False
+        shannon_description.visible = True
+        urban_description.visible = False
 
 def update_scatterplots2(attr, old, new):
     if dropdown2.value == "Default":
@@ -250,6 +279,9 @@ def update_scatterplots2(attr, old, new):
         p5.visible = False
         p6.visible = False
         p7.visible = False
+        default_description.visible = True
+        shannon_description.visible = False
+        urban_description.visible = False
     elif dropdown2.value == "Region":
         p4.visible = False
         p5.visible = True
@@ -260,11 +292,17 @@ def update_scatterplots2(attr, old, new):
         p5.visible = False
         p6.visible = True
         p7.visible = False
+        default_description.visible = False
+        shannon_description.visible = False
+        urban_description.visible = True
     elif dropdown2.value == "Shannon Index":
         p4.visible = False
         p5.visible = False
         p6.visible = False
         p7.visible = True
+        default_description.visible = False
+        shannon_description.visible = True
+        urban_description.visible = False
 
 # Set initial visibility
 p0.visible = True
@@ -277,6 +315,10 @@ p4.visible = True
 p5.visible = False
 p6.visible = False
 p7.visible = False
+
+default_description.visible = True
+shannon_description.visible = False
+urban_description.visible = False
 
 # Add the callback to the dropdown menu
 dropdown.on_change('value', update_scatterplots)
@@ -292,7 +334,7 @@ heading_gender_identity = Div(text="<h1>Gender identity</h1>", width=400)
 layout1 = column(heading_sexual_orientation, dropdown, p0, p1, p_2, p3)
 layout2 = column(heading_gender_identity, dropdown2, p4, p5, p6, p7)
 
-layout = row(layout1, layout2)
+layout = row(layout1, layout2, default_description, shannon_description, urban_description)
 
 # Read-in pre-processed data for religion
 
