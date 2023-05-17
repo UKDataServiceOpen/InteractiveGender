@@ -103,7 +103,7 @@ tool = [
 p0 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
            y_axis_label = "Non-response rate", tooltips = tool)
 
-p0.scatter("Percentage", "Non-response_rate", source=source, fill_alpha=0.5, size=10)
+p0.scatter("Percentage", "Non_response_rate", source=source, fill_alpha=0.5, size=10)
 
 # Plot 1 (By Region)
 p1 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
@@ -113,7 +113,7 @@ p1 = figure(title="Relationship between Non-response Rate and Non-English Speake
 
 for region, color in zip(df.region_x.unique(), Category10[10]):
     b = df[df.region_x == region]
-    p1.circle(x='Percentage', y='Non-response_rate', size=10, alpha=0.5, color=color,
+    p1.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(b))
 
 p1.legend.location = "bottom_right"
@@ -131,7 +131,7 @@ for urb_rur in df.Urb_Rur.unique():
     urban_rural_sources[urb_rur] = ColumnDataSource(df[df.Urb_Rur == urb_rur])
 
 for urb_rur, color in zip(df.Urb_Rur.unique(), Category10[10]):
-    p_2.circle(x='Percentage', y='Non-response_rate', size=10, alpha=0.5, color=color,
+    p_2.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
 p_2.legend.location = "bottom_right"
@@ -148,7 +148,7 @@ p3 = figure(title="Relationship between Non-response Rate and Non-English Speake
             y_axis_label="Percentage of Non-English Speakers",
             tooltips=tool)
 
-p3.scatter("Percentage", "Non-response_rate", source=source, fill_alpha=0.5, size=10,
+p3.scatter("Percentage", "Non_response_rate", source=source, fill_alpha=0.5, size=10,
            color={'field': 'Shannon_idx', 'transform': color_map})
 
 color_bar = ColorBar(color_mapper=color_map,
@@ -159,7 +159,7 @@ color_bar = ColorBar(color_mapper=color_map,
 p3.add_layout(color_bar, 'right')
 
 p4 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
-           y_axis_label = "Non-response rate", tooltips = tool)
+           y_axis_label = "Non_response rate", tooltips = tool)
 
 p4.scatter("Percentage", "Non-response_rate", source=source2, fill_alpha=0.5, size=10)
 
@@ -171,7 +171,7 @@ p5 = figure(title="Relationship between Non-response Rate and Non-English Speake
 
 for region, color in zip(df_gi.region_x.unique(), Category10[10]):
     c = df_gi[df_gi.region_x == region]
-    p5.circle(x='Percentage', y='Non-response_rate', size=10, alpha=0.5, color=color,
+    p5.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(c))
 
 p5.legend.location = "bottom_right"
@@ -189,7 +189,7 @@ for urb_rur in df_gi.Urb_Rur.unique():
     urban_rural_sources[urb_rur] = ColumnDataSource(df_gi[df_gi.Urb_Rur == urb_rur])
 
 for urb_rur, color in zip(df_gi.Urb_Rur.unique(), Category10[10]):
-    p6.circle(x='Percentage', y='Non-response_rate', size=10, alpha=0.5, color=color,
+    p6.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
 p6.legend.location = "bottom_right"
@@ -206,7 +206,7 @@ p7 = figure(title="Relationship between Non-response Rate and Non-English Speake
             y_axis_label="Percentage of Non-English Speakers",
             tooltips=tool)
 
-p7.scatter("Percentage", "Non-response_rate", source=source2, fill_alpha=0.5, size=10,
+p7.scatter("Percentage", "Non_response_rate", source=source2, fill_alpha=0.5, size=10,
            color={'field': 'Shannon_idx', 'transform': color_map})
 
 color_bar = ColorBar(color_mapper=color_map,
