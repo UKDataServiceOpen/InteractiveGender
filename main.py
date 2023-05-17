@@ -261,7 +261,7 @@ def update_scatterplots(attr, old, new):
         p1.visible = False
         p_2.visible = True
         p3.visible = False
-        default_description = False
+        default_description.visible = False
         shannon_description.visible = False
         urban_description.visible = True
     elif dropdown.value == "Shannon Index":
