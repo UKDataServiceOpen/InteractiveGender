@@ -81,6 +81,11 @@ from bokeh.models import Div
 output_notebook()
 
 # Prepare data sources
+
+df = df.rename(columns={'Non-response_rate': 'Non_response_rate'})
+df_gi = df_gi.rename(columns={'Non-response_rate': 'Non_response_rate'})
+
+
 df['Urb_Rur'] = df['Urb_Rur'].astype(str)
 source = ColumnDataSource(df)
 
@@ -91,7 +96,7 @@ source2 = ColumnDataSource(df_gi)
 # Define tooltips
 tool = [
     ("index", "$index"),
-    ("(x,y)", "(@Percentage{0.2f}, @Non-response_rate{0.2f})"),
+    ("(x,y)", "(@Percentage{0.2f}, @Non_response_rate{0.2f})"),
     ("name", "@LA_name"),
 ]
 
