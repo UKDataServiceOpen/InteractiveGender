@@ -91,7 +91,7 @@ source2 = ColumnDataSource(df_gi)
 # Define tooltips
 tool = [
     ("index", "$index"),
-    ("(x,y)", "($x, $y)"),
+    ("(x,y)", "(@Percentage{0.2f}, @Non-response_rate{0.2f})"),
     ("name", "@LA_name"),
 ]
 
@@ -399,7 +399,7 @@ source = ColumnDataSource(rel)
 # Define tooltips
 tool = [
     ("index", "$index"),
-    ("(x,y)", "($x, $y)"),
+    ("(x,y)", "(@selected_religion{0.2f}, @selected_percentages{0.2f})"),
     ("name", "@LA_name"),
 ]
 
