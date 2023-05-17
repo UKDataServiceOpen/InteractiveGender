@@ -221,7 +221,7 @@ dropdown = Select(title="Color By:", value="None", options=["Default", "Region",
 dropdown2 = Select(title="Color By:", value="None", options=["Default", "Region", "Urban", "Shannon Index"])
 
 default_description = Div(text="""
-<h2>Interaction Tips:</h2>
+<h2>Scatterplot Interaction Tips:</h2>
 <ul>
     <li><b>Pan:</b> Click and drag the plot area to pan the view.</li>
     <li><b>Zoom in/out:</b> Scroll up/down with the mouse wheel to zoom in/out.</li>
@@ -389,6 +389,16 @@ def create_datatable(source, columns):
     data_table = DataTable(source=source, columns=columns, editable=False, width=500, index_position=None)
     return column(heading, data_table), data_table
 
+default_description_2 = Div(text="""
+<h2>DataTable Interaction Tips:</h2>
+<ul>
+    <li><b>Sort data:</b> Click on a column header to sort the data in ascending order, click again to sort in descending order.</li>
+    <li><b>Resize columns:</b> Click and drag the border between two column headers to adjust their width.</li>
+    <li><b>Scroll vertically:</b> Use the scrollbar on the right side of the DataTable to navigate through the data.</li>
+    <li><b>Dropdown selection:</b> Choose a religious group from the dropdown menu to change the data displayed in the scatterplot and highlight the corresponding rows in the DataTable.</li>
+</ul>
+""", width=500)
+
 
 # Create DataTable for layout1
 source1 = ColumnDataSource(totals)
@@ -527,11 +537,12 @@ update_highlighted_rows_2(select_religion_2.value)
 col1 = column(select_religion, p8, layout_1, layout_2)
 col2 = column(select_religion_2, p9, layout_3, layout_4)
 final_layout = row(col1, col2)
+final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
 
 from bokeh.layouts import grid
 
-r = column(layout, final_layout)
+r = column(layout, final_layout_with_description)
 r.margin = (30, 30, 30, 30)  # Add margin to the final layout
 curdoc().add_root(r)
 
