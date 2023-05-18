@@ -543,10 +543,10 @@ update_highlighted_rows_2(select_religion_2.value)
 
 # Add sex dataset in
 
-so_tot = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/sex_totals_SO')
-so_nr = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/nr_totals_SO')
-gi_tot = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/sex_totals_GI')
-gi_nr = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/nr_totals_GI')
+so_tot = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/sex_totals_SO_2')
+so_nr = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/nr_totals_SO_2')
+gi_tot = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/sex_totals_GI_2')
+gi_nr = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/nr_totals_GI_2')
 
 sourc1 = ColumnDataSource(so_tot)
 
