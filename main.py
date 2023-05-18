@@ -16,7 +16,7 @@ from bokeh.models import (
     Button,
 )
 from bokeh.models.annotations import LabelSet
-from bokeh.palettes import Category10
+from bokeh.palettes import Category10, Colorblind
 from bokeh.plotting import figure
 
 import numpy as np
@@ -111,7 +111,7 @@ p1 = figure(title="Relationship between Non-response Rate and Non-English Speake
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-for region, color in zip(df.region_x.unique(), Category10[10]):
+for region, color in zip(df.region_x.unique(), Colorblind[8]):
     b = df[df.region_x == region]
     p1.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(b))
@@ -130,7 +130,7 @@ urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource ob
 for urb_rur in df.Urb_Rur.unique():
     urban_rural_sources[urb_rur] = ColumnDataSource(df[df.Urb_Rur == urb_rur])
 
-for urb_rur, color in zip(df.Urb_Rur.unique(), Category10[10]):
+for urb_rur, color in zip(df.Urb_Rur.unique(), Colorblind[8]):
     p_2.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
@@ -169,7 +169,7 @@ p5 = figure(title="Relationship between Non-response Rate and Non-English Speake
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-for region, color in zip(df_gi.region_x.unique(), Category10[10]):
+for region, color in zip(df_gi.region_x.unique(), Colorblind[8]):
     c = df_gi[df_gi.region_x == region]
     p5.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(c))
@@ -188,7 +188,7 @@ urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource ob
 for urb_rur in df_gi.Urb_Rur.unique():
     urban_rural_sources[urb_rur] = ColumnDataSource(df_gi[df_gi.Urb_Rur == urb_rur])
 
-for urb_rur, color in zip(df_gi.Urb_Rur.unique(), Category10[10]):
+for urb_rur, color in zip(df_gi.Urb_Rur.unique(), Colorblind[8]):
     p6.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
