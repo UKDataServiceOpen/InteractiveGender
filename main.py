@@ -126,6 +126,7 @@ p1.legend.location = "bottom_right"
 p1.legend.click_policy = "hide"
 p1.legend.title = "Regions"
 
+
 # Plot 2 (Urban vs Rural)
 p_2 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
@@ -136,13 +137,15 @@ urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource ob
 for urb_rur in df.Urb_Rur.unique():
     urban_rural_sources[urb_rur] = ColumnDataSource(df[df.Urb_Rur == urb_rur])
 
-for urb_rur, color in zip(df.Urb_Rur.unique(), Colorblind[8]):
+for (idx, urb_rur) in enumerate(df.Urb_Rur.unique()):
+    color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
     p_2.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
-              legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
+               legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
 p_2.legend.location = "bottom_right"
 p_2.legend.click_policy = "hide"
 p_2.legend.title = "Urban-Rural"
+
 
 
 
@@ -170,13 +173,15 @@ p4 = figure(title = "Relationship between Non-response Rate and Non-English Spea
 p4.scatter("Percentage", "Non_response_rate", source=source2, fill_alpha=0.5, size=10)
 
 # Plot 1 (By Region)
+# Plot 1 (By Region)
 p5 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-for region, color in zip(df_gi.region_x.unique(), Colorblind[8]):
+for (idx, region) in enumerate(df_gi.region_x.unique()):
     c = df_gi[df_gi.region_x == region]
+    color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
     p5.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(c))
 
@@ -191,10 +196,9 @@ p6 = figure(title="Relationship between Non-response Rate and Non-English Speake
             tooltips=tool)
 
 urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource objects
-for urb_rur in df_gi.Urb_Rur.unique():
+for (idx, urb_rur) in enumerate(df_gi.Urb_Rur.unique()):
     urban_rural_sources[urb_rur] = ColumnDataSource(df_gi[df_gi.Urb_Rur == urb_rur])
-
-for urb_rur, color in zip(df_gi.Urb_Rur.unique(), Colorblind[8]):
+    color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
     p6.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
@@ -537,10 +541,54 @@ select_religion_2.on_change('value', update_plot_2)
 update_highlighted_rows(select_religion.value)
 update_highlighted_rows_2(select_religion_2.value)
 
+# Add sex dataset in
+
+so_tot = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/sex_totals_SO')
+so_nr = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/nr_totals_SO')
+gi_tot = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/sex_totals_GI')
+gi_nr = pd.read_csv('/Users/loucap/Documents/GitWork/InteractiveGender/Data/nr_totals_GI')
+
+sourc1 = ColumnDataSource(so_tot)
+
+columnz1 = [
+    TableColumn(field="Sex", title="Totals"),
+    TableColumn(field="Observation", title="Observation")]
+
+ly1, table1 = create_datatable(sourc1, columnz1)
+
+sourc2 = ColumnDataSource(so_nr)
+
+columnz2 = [
+    TableColumn(field="Sex", title="Non-response rates"),
+    TableColumn(field="Observation", title="Observation"),
+    TableColumn(field="Non_response_%", title="Non response rate")]
+
+ly2, table2 = create_datatable(sourc2, columnz2)
+
+sourc3 = ColumnDataSource(gi_tot)
+
+columnz3 = [
+    TableColumn(field="Sex", title="Totals"),
+    TableColumn(field="Observation", title="Observation")]
+
+ly3, table3 = create_datatable(sourc3, columnz3)
+
+sourc4 = ColumnDataSource(gi_nr)
+
+columnz4 = [
+    TableColumn(field="Sex", title="Non-response rates"),
+    TableColumn(field="Observation", title="Observation"),
+    TableColumn(field="Non_response_%", title="Non response rate")]
+
+ly4, table4 = create_datatable(sourc4, columnz4)
+
+heading_sex = Div(text="<h1>Sex: sexual orientation</h1>", width=400)
+heading_gen = Div(text="<h1>Sex: gender identity</h1>", width=400)
+
 # Layout
 
-col1 = column(select_religion, p8, layout_1, layout_2)
-col2 = column(select_religion_2, p9, layout_3, layout_4)
+col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, ly2)
+col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3, ly4)
 final_layout = row(col1, col2)
 final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
