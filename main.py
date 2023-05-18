@@ -73,7 +73,7 @@ import pandas as pd
 from bokeh.layouts import column, row
 from bokeh.models import ColumnDataSource, Select
 from bokeh.plotting import figure, curdoc
-from bokeh.palettes import Category10
+from bokeh.palettes import Category10, Colorblind
 from bokeh.transform import factor_cmap
 from bokeh.models import ColorBar, BasicTicker, PrintfTickFormatter, LogColorMapper
 from bokeh.models.widgets import DataTable, TableColumn, Div
