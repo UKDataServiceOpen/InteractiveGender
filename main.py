@@ -16,7 +16,7 @@ from bokeh.models import (
     Button,
 )
 from bokeh.models.annotations import LabelSet
-from bokeh.palettes import Category10, Colorblind
+from bokeh.palettes import Category10
 from bokeh.plotting import figure
 
 import numpy as np
@@ -61,6 +61,9 @@ df2_gi.head()
 ## Shows the relationship between the % of Non-English speakers and % of Non-response for our 331 Local Authorities in England and Wales.
 
 ### COLOURED BY REGION
+
+colorblind = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#999999']
+
 
 df['Urb_Rur'] = df2['Urb_Rur']
 
@@ -111,8 +114,9 @@ p1 = figure(title="Relationship between Non-response Rate and Non-English Speake
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-for region, color in zip(df.region_x.unique(), Colorblind[8]):
+for (idx, region) in enumerate(df.region_x.unique()):
     b = df[df.region_x == region]
+    color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
     p1.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(b))
 
