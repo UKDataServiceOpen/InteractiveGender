@@ -96,6 +96,8 @@ source = ColumnDataSource(df)
 df_gi['Urb_Rur'] = df_gi['Urb_Rur'].astype(str)
 source2 = ColumnDataSource(df_gi)
 
+okabe_ito = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#999999']
+
 # Define tooltips
 tool = [
     ("index", "$index"),
