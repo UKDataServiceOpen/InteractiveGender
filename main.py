@@ -18,6 +18,7 @@ from bokeh.models import (
 from bokeh.models.annotations import LabelSet
 from bokeh.palettes import Category10
 from bokeh.plotting import figure
+from bokeh.models import Spacer
 
 import numpy as np
 
@@ -587,8 +588,8 @@ heading_gen = Div(text="<h1>Sex: gender identity</h1>", width=400)
 
 # Layout
 
-col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, ly2)
-col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3, ly4)
+col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 10),ly2)
+col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3, Spacer(height = 10), ly4)
 final_layout = row(col1, col2)
 final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
