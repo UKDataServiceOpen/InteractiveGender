@@ -601,9 +601,17 @@ ly4, table4 = create_datatable2(sourc4, columnz4)
 heading_sex = Div(text="<h1>Sex: sexual orientation</h1>", width=400)
 heading_gen = Div(text="<h1>Sex: gender identity</h1>", width=400)
 
+sex_description = Div(text="""<h3>Sex</h3>
+<p>Because we're only dealing with two variables i.e. sex and non-response rate, this does not make for a particularly interesting visualisation. Therefore, I've only included a table here which displays:</p>
+<li><b>Total:</b> Total number of male and females sampled.</li>
+<li><b>Total non-response:</b> Total number of male and females that didn't respond to either question.</li>
+<li><b>Non response rate:</b> The non-response as a percentage for each sex.</li>
+""",
+width=300, height=200, css_classes=["shannon-description"])
+
 # Layout
 
-col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 1),ly2)
+col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 1),ly2, sex_description)
 col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3, Spacer(height = 1), ly4)
 final_layout = row(col1, col2)
 final_layout_with_description = row(final_layout, default_description_2)
