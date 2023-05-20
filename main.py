@@ -1,12 +1,13 @@
 #Import relevant packages
 
+import os
 import pandas as pd
+import numpy as np
 import seaborn as sns
 import matplotlib.pylab as plt
-import os
 
 from bokeh.io import show, curdoc, output_notebook
-from bokeh.layouts import column
+from bokeh.layouts import column, row
 from bokeh.models import (
     ColumnDataSource,
     Label,
@@ -14,13 +15,20 @@ from bokeh.models import (
     CheckboxGroup,
     CustomJS,
     Button,
+    Spacer,
+    Select,
+    HTMLTemplateFormatter,
+    NumberFormatter,
+    BasicTicker,
+    PrintfTickFormatter,
+    LogColorMapper,
+    ColorBar,
 )
-from bokeh.models.annotations import LabelSet
-from bokeh.palettes import Category10
+from bokeh.models.widgets import DataTable, TableColumn, Div
 from bokeh.plotting import figure
-from bokeh.models import Spacer
+from bokeh.palettes import Category10, Colorblind
+from bokeh.transform import factor_cmap
 
-import numpy as np
 
 os.environ['BOKEH_RESOURCES'] = "inline"
 
@@ -69,17 +77,6 @@ colorblind = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', 
 df['Urb_Rur'] = df2['Urb_Rur']
 
 df_gi['Urb_Rur'] = df2_gi['Urb_Rur']
-
-import pandas as pd
-from bokeh.layouts import column, row
-from bokeh.models import ColumnDataSource, Select
-from bokeh.plotting import figure, curdoc
-from bokeh.palettes import Category10, Colorblind
-from bokeh.transform import factor_cmap
-from bokeh.models import ColorBar, BasicTicker, PrintfTickFormatter, LogColorMapper
-from bokeh.models.widgets import DataTable, TableColumn, Div
-from bokeh.models import Div
-
 
 
 output_notebook()
@@ -148,15 +145,23 @@ p_2.legend.click_policy = "hide"
 p_2.legend.title = "Urban-Rural"
 
 
-
+# Define tooltips for Shannon plot
+si_tool = [
+    ("index", "$index"),
+    ("(x,y)", "(@Percentage{0.2f}, @Non_response_rate{0.2f})"),
+    ("name", "@LA_name")
+    ("SI", "@Shannon_idx")
+]
 
 # Plot 3 (Shannon Index)
+
+
 color_map = LogColorMapper(palette="Viridis256", low=df.Shannon_idx.min(), high=df.Shannon_idx.max())
 
 p3 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Non-response Rate",
             y_axis_label="Percentage of Non-English Speakers",
-            tooltips=tool)
+            tooltips=si_tool)
 
 p3.scatter("Percentage", "Non_response_rate", source=source, fill_alpha=0.5, size=10,
            color={'field': 'Shannon_idx', 'transform': color_map})
@@ -201,7 +206,7 @@ for (idx, urb_rur) in enumerate(df_gi.Urb_Rur.unique()):
     urban_rural_sources[urb_rur] = ColumnDataSource(df_gi[df_gi.Urb_Rur == urb_rur])
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
     p6.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
-              legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
+              legend_label=urb_rur, source=urban_rural_sources[urb_rur])
 
 p6.legend.location = "bottom_right"
 p6.legend.click_policy = "hide"
@@ -215,7 +220,7 @@ color_map = LogColorMapper(palette="Viridis256", low=df_gi.Shannon_idx.min(), hi
 p7 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Non-response Rate",
             y_axis_label="Percentage of Non-English Speakers",
-            tooltips=tool)
+            tooltips=si_tool)
 
 p7.scatter("Percentage", "Non_response_rate", source=source2, fill_alpha=0.5, size=10,
            color={'field': 'Shannon_idx', 'transform': color_map})
@@ -376,14 +381,6 @@ nr_totals_2 = pd.read_csv('nr_totals_GI.csv')
 
 nr_totals_2 = nr_totals_2.sort_values(by = "Contribution_to_overall_non_response_rate", ascending = False)
 
-import pandas as pd
-from bokeh.layouts import column, row
-from bokeh.models import ColumnDataSource, Select, HTMLTemplateFormatter
-from bokeh.models.widgets import DataTable, TableColumn, Div
-from bokeh.plotting import figure, show, curdoc
-from bokeh.io import output_notebook
-from bokeh.models import NumberFormatter
-from bokeh.models import HTMLTemplateFormatter
 
 
 # Custom cell formatter
@@ -611,7 +608,6 @@ final_layout = row(col1, col2)
 final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
 
-from bokeh.layouts import grid
 
 r = column(layout, final_layout_with_description)
 r.margin = (30, 30, 30, 30)  # Add margin to the final layout
