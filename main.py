@@ -402,7 +402,7 @@ def create_datatable(source, columns):
 
 def create_datatable2(source, columns):
     heading = Div(text=f"<h2>{columns[0].title}</h2>", width=300)
-    data_table = DataTable(source=source, columns=columns, editable=False, width=500, index_position=None)
+    data_table = DataTable(source=source, columns=columns, editable=False, width=500, height = 50, index_position=None)
     return column(heading, data_table), data_table
 
 
