@@ -383,6 +383,7 @@ from bokeh.models.widgets import DataTable, TableColumn, Div
 from bokeh.plotting import figure, show, curdoc
 from bokeh.io import output_notebook
 from bokeh.models import NumberFormatter
+from bokeh.models import HTMLTemplateFormatter
 
 
 # Custom cell formatter
@@ -559,10 +560,9 @@ so_nr = pd.read_csv('nr_totals_SO_2.csv')
 gi_tot = pd.read_csv('sex_totals_GI_2.csv')
 gi_nr = pd.read_csv('nr_totals_GI_2.csv')
 
-bold_formatter = NumberFormatter(format="0.00", text_align='right', 
-    html_template="""
-    <div style="font-weight: bold; color: red;"><%= value %></div>
-    """)
+bold_formatter = HTMLTemplateFormatter(template="""
+    <div style="color: red; font-weight: bold;"><%= value %></div>
+""")
 
 
 sourc1 = ColumnDataSource(so_tot)
