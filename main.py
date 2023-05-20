@@ -149,7 +149,7 @@ p_2.legend.title = "Urban-Rural"
 si_tool = [
     ("index", "$index"),
     ("(x,y)", "(@Percentage{0.2f}, @Non_response_rate{0.2f})"),
-    ("name", "@LA_name")
+    ("name", "@LA_name"),
     ("SI", "@Shannon_idx")
 ]
 
