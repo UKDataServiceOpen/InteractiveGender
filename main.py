@@ -578,7 +578,7 @@ sourc2 = ColumnDataSource(so_nr)
 columnz2 = [
     TableColumn(field="Sex", title="Non-response rates"),
     TableColumn(field="Observation", title="Observation"),
-    TableColumn(field="Non_response_%", title="Non response rate"), formatter = bold_formatter)]
+    TableColumn(field="Non_response_%", title="Non response rate", formatter = bold_formatter)]
 
 ly2, table2 = create_datatable2(sourc2, columnz2)
 
@@ -595,7 +595,7 @@ sourc4 = ColumnDataSource(gi_nr)
 columnz4 = [
     TableColumn(field="Sex", title="Non-response rates"),
     TableColumn(field="Observation", title="Observation"),
-    TableColumn(field="Non_response_%", title="Non response rate"), formatter = bold_formatter)]
+    TableColumn(field="Non_response_%", title="Non response rate", formatter = bold_formatter)]
 
 ly4, table4 = create_datatable2(sourc4, columnz4)
 
