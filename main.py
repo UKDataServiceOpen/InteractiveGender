@@ -589,6 +589,8 @@ columnz3 = [
 
 ly3, table3 = create_datatable2(sourc3, columnz3)
 
+ly3.width = 200
+
 sourc4 = ColumnDataSource(gi_nr)
 
 columnz4 = [
@@ -607,7 +609,7 @@ sex_description = Div(text="""<h3>Sex</h3>
 <li><b>Total non-response:</b> Total number of male and females that didn't respond to either question.</li>
 <li><b>Non response rate:</b> The non-response as a percentage for each sex.</li>
 """,
-width=300, height=200, css_classes=["shannon-description"])
+width=200, height=200, css_classes=["shannon-description"])
 
 # Layout
 
