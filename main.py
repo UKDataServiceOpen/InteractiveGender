@@ -150,7 +150,7 @@ si_tool = [
     ("index", "$index"),
     ("(x,y)", "(@Percentage{0.2f}, @Non_response_rate{0.2f})"),
     ("name", "@LA_name"),
-    ("SI", "@Shannon_idx")
+    ("SI", "@Shannon_idx{0.2f}")
 ]
 
 # Plot 3 (Shannon Index)
@@ -249,7 +249,8 @@ default_description = Div(text="""
 """, width=500)
 
 shannon_description = Div(text="""<h3>Shannon Index</h3>
-<p>The Shannon Index is a measure of diversity within a community. In this context, it is used to measure religious diversity. The index quantifies the uncertainty in predicting the religious affiliation of a randomly chosen individual from the community. A higher Shannon Index indicates greater diversity.</p>""",
+<p>The Shannon Index is a measure of diversity within a community. In this context, it is used to measure religious diversity. The index quantifies the uncertainty in predicting the religious affiliation of a randomly chosen individual from the community. A higher Shannon Index indicates greater diversity.</p>
+<p>Try hovering over a data point with your mouse to see its specific SI (Shannon index)</p>""",
 width=300, height=200, css_classes=["shannon-description"])
 
 urban_description = Div(text="""<h3>Urban-Rural Classification</h3>
