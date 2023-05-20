@@ -561,8 +561,9 @@ gi_nr = pd.read_csv('nr_totals_GI_2.csv')
 
 bold_formatter = NumberFormatter(format="0.00", text_align='right', 
     html_template="""
-    <div style="font-weight: bold;"><%= value %></div>
+    <div style="font-weight: bold; color: red;"><%= value %></div>
     """)
+
 
 sourc1 = ColumnDataSource(so_tot)
 
