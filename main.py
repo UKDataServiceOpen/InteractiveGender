@@ -609,7 +609,7 @@ sex_description = Div(text="""<h3>Sex</h3>
 <li><b>Total non-response:</b> Total number of male and females that didn't respond to either question.</li>
 <li><b>Non response rate:</b> The non-response as a percentage for each sex.</li>
 """,
-width=200, height=200, css_classes=["shannon-description"])
+width=500, height=200, css_classes=["shannon-description"])
 
 # Layout
 
