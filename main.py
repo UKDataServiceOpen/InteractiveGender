@@ -239,6 +239,7 @@ default_description = Div(text="""
     <li><b>Box zoom:</b> Click the "Box Zoom" tool in the toolbar, then click and drag a rectangle on the plot area to zoom into a specific region. Press the "Reset" tool to reset the view.</li>
     <li><b>Toggle legend items:</b> Click on the legend items to toggle the visibility of the corresponding data points. Clicking them again will make the data points visible.</li>
     <li><b>Hover:</b> Hover the mouse cursor over data points to see tooltips with additional information.</li>
+    <li><b>Reset:</b> Click the "Reset" button in the toolbar to restore plot ranges to their original values.</li>
 </ul>
 """, width=500)
 
@@ -381,13 +382,15 @@ from bokeh.models import ColumnDataSource, Select, HTMLTemplateFormatter
 from bokeh.models.widgets import DataTable, TableColumn, Div
 from bokeh.plotting import figure, show, curdoc
 from bokeh.io import output_notebook
+from bokeh.models import NumberFormatter
+
 
 # Custom cell formatter
 template = """
 <% if (Religion_categories == selected_religion) { %>
     <span style="color: red; font-weight: bold"><%= value %></span>
 <% } else { %>
-    <span style="font-weight: bold"><%= value %></span>
+    <span><%= value %></span>
 <% } %>
 """
 
@@ -556,6 +559,11 @@ so_nr = pd.read_csv('nr_totals_SO_2.csv')
 gi_tot = pd.read_csv('sex_totals_GI_2.csv')
 gi_nr = pd.read_csv('nr_totals_GI_2.csv')
 
+bold_formatter = NumberFormatter(format="0.00", text_align='right', 
+    html_template="""
+    <div style="font-weight: bold;"><%= value %></div>
+    """)
+
 sourc1 = ColumnDataSource(so_tot)
 
 columnz1 = [
@@ -569,7 +577,7 @@ sourc2 = ColumnDataSource(so_nr)
 columnz2 = [
     TableColumn(field="Sex", title="Non-response rates"),
     TableColumn(field="Observation", title="Observation"),
-    TableColumn(field="Non_response_%", title="Non response rate")]
+    TableColumn(field="Non_response_%", title="Non response rate"), formatter = bold_formatter)]
 
 ly2, table2 = create_datatable2(sourc2, columnz2)
 
@@ -586,7 +594,7 @@ sourc4 = ColumnDataSource(gi_nr)
 columnz4 = [
     TableColumn(field="Sex", title="Non-response rates"),
     TableColumn(field="Observation", title="Observation"),
-    TableColumn(field="Non_response_%", title="Non response rate")]
+    TableColumn(field="Non_response_%", title="Non response rate"), formatter = bold_formatter)]
 
 ly4, table4 = create_datatable2(sourc4, columnz4)
 
