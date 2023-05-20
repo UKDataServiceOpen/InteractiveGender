@@ -391,7 +391,7 @@ template = """
 <% if (Religion_categories == selected_religion) { %>
     <span style="color: red; font-weight: bold"><%= value %></span>
 <% } else { %>
-    <span><%= value %></span>
+    <span style="font-weight: bold"><%= value %></span>
 <% } %>
 """
 
