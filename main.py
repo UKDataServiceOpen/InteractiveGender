@@ -589,7 +589,7 @@ columnz3 = [
 
 ly3, table3 = create_datatable2(sourc3, columnz3)
 
-ly3.width = 200
+
 
 sourc4 = ColumnDataSource(gi_nr)
 
@@ -614,7 +614,7 @@ width=500, height=200, css_classes=["shannon-description"])
 # Layout
 
 col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 1),ly2)
-col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, row(ly3, sex_description),Spacer(height = 1), ly4)
+col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3,Spacer(height = 1), ly4)
 final_layout = row(col1, col2)
 final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
