@@ -400,6 +400,13 @@ def create_datatable(source, columns):
     data_table = DataTable(source=source, columns=columns, editable=False, width=500, index_position=None)
     return column(heading, data_table), data_table
 
+def create_datatable2(source, columns):
+    heading = Div(text=f"<h2>{columns[0].title}</h2>", width=300)
+    data_table = DataTable(source=source, columns=columns, editable=False, width=500, index_position=None)
+    return column(heading, data_table), data_table
+
+
+
 default_description_2 = Div(text="""
 <h2>DataTable Interaction Tips:</h2>
 <ul>
@@ -555,7 +562,7 @@ columnz1 = [
     TableColumn(field="Sex", title="Totals"),
     TableColumn(field="Observation", title="Observation")]
 
-ly1, table1 = create_datatable(sourc1, columnz1)
+ly1, table1 = create_datatable2(sourc1, columnz1)
 
 sourc2 = ColumnDataSource(so_nr)
 
@@ -564,7 +571,7 @@ columnz2 = [
     TableColumn(field="Observation", title="Observation"),
     TableColumn(field="Non_response_%", title="Non response rate")]
 
-ly2, table2 = create_datatable(sourc2, columnz2)
+ly2, table2 = create_datatable2(sourc2, columnz2)
 
 sourc3 = ColumnDataSource(gi_tot)
 
@@ -572,7 +579,7 @@ columnz3 = [
     TableColumn(field="Sex", title="Totals"),
     TableColumn(field="Observation", title="Observation")]
 
-ly3, table3 = create_datatable(sourc3, columnz3)
+ly3, table3 = create_datatable2(sourc3, columnz3)
 
 sourc4 = ColumnDataSource(gi_nr)
 
@@ -581,15 +588,15 @@ columnz4 = [
     TableColumn(field="Observation", title="Observation"),
     TableColumn(field="Non_response_%", title="Non response rate")]
 
-ly4, table4 = create_datatable(sourc4, columnz4)
+ly4, table4 = create_datatable2(sourc4, columnz4)
 
 heading_sex = Div(text="<h1>Sex: sexual orientation</h1>", width=400)
 heading_gen = Div(text="<h1>Sex: gender identity</h1>", width=400)
 
 # Layout
 
-col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 10),ly2)
-col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3, Spacer(height = 10), ly4)
+col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 1),ly2)
+col2 = column(select_religion_2, p9, layout_3, layout_4, heading_gen, ly3, Spacer(height = 1), ly4)
 final_layout = row(col1, col2)
 final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
