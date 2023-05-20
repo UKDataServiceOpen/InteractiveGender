@@ -391,9 +391,10 @@ template = """
 <% if (Religion_categories == selected_religion) { %>
     <span style="color: red; font-weight: bold"><%= value %></span>
 <% } else { %>
-    <span style="font-weight: bold"><%= value %></span>
+    <span style="color: black;"><%= value %></span>
 <% } %>
 """
+
 
 def create_formatter(selected_religion):
     formatter = HTMLTemplateFormatter(template=template.replace("selected_religion", f"'{selected_religion}'"))
