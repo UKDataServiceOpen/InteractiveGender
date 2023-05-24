@@ -1,5 +1,7 @@
 ### APP for Sexual Orientation ### 
 
+Sys.setenv(SHINYSENDER_REMOTENAME="app_s_orientation.R")
+
 library(readr)
 library(janitor)
 library(ggmap)

@@ -1,5 +1,7 @@
 ### APP for Gender Identity ### 
 
+Sys.setenv(SHINYSENDER_REMOTENAME="app_g_identity.R")
+
 library(readr)
 library(janitor)
 library(ggmap)
