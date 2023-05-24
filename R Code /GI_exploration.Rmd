@@ -1,0 +1,413 @@
+---
+title: "Exploring the UK 2021 Census Data: Gender Identity"
+output: html_document
+date: "2023-04-19"
+---
+
+## LOAD PACKAGES 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(janitor)
+library(ggmap)
+library(mapview)
+library(sf)
+library(readxl)
+library(janitor)
+library(tmap)
+library(dplyr)
+library(sp)
+library(spdep)
+library(ggplot2)
+library(ggspatial)
+
+```
+
+
+
+## LOAD CLEANED AND JO|INED DATA
+
+
+```{r}
+## Read in cleaned and merged data
+la_gi <- st_read("/Users/user/Documents/InteractiveGender/Shapefiles/gi_spatial.shp") %>%
+  clean_names() %>%
+  rename("gi_categories" = g_ctgrs)
+head(la_gi)
+
+# This line of code is important. This removes those invalid geometries (those with looped vertices), be patient it takes about 1-2 minutes to run. 
+st_is_valid(la_gi, reason = T)
+la_gi <- st_make_valid(la_gi)
+
+# And remove NAs, mainly Welsh LAs
+sum(is.na(la_gi$observation))
+la_gi <- na.omit(la_gi)
+
+## FOR INDIVIDUAL CATS
+
+same <- la_gi %>% filter(gi_categories == "Gender identity the same as sex registered at birth")
+diff <- la_gi %>% filter(gi_categories == "Gender identity different from sex registered at birth but no specific identity given")
+t_women <- la_gi %>% filter(gi_categories == "Trans woman")
+t_man <- la_gi %>% filter(gi_categories == "Trans man")
+all_other <- la_gi %>% filter(gi_categories == "All other gender identities")
+
+
+```
+
+
+
+## DATA PRE-PROCESSING 
+
+For those interest in how the data has been cleaned (fixing invalid geometries), joined (to region, urban vs rural, LA population)
+
+
+### Read in gender identity data
+
+```{r}
+gi <- read_csv("Data/gi_renamed.csv") %>% 
+  clean_names()
+
+#Delete 'Does not apply' apply category
+gi <- gi %>%
+  subset(gi_code > 0)
+
+#Add percentages 
+gi <- gi %>% 
+  group_by(la_code) %>% 
+  mutate(total_observation = sum(observation),
+         percentage = observation / total_observation * 100)
+
+head(gi$percentage)
+
+```
+
+
+## Read in LT Local Authority (shapefile)
+```{r}
+#Load the shapefile
+shapefile <- st_read("Shapefiles/LAD_DEC_2022_UK_BFC.shp") %>% clean_names()
+#change column name of LSOA code to match the LSOA code column in the SO polygon data
+colnames(shapefile)[which(names(shapefile) == "lad22cd")] <- "la_code"
+
+#check crs 
+st_crs(shapefile)
+
+#lets transform it to the correct crs
+shapefile <- st_transform(shapefile, 4326)
+
+#check the crs again 
+st_crs(shapefile)
+
+#Plot the empty shapefile using ggplot or base plot
+ggplot() + 
+  geom_sf(data = shapefile)
+
+plot(st_geometry(shapefile))
+
+# check class
+class(shapefile)
+```
+
+
+## Read in region data
+
+```{r}
+region <- read_csv("la_to_region.csv") %>%
+  clean_names() %>%
+   rename("la_code" = lad22cd, 
+         "la_name" = lad22nm,
+         "reg_code" = rgn22cd,
+         "reg_name" = rgn22nm)
+```
+
+
+## Read in LA population 
+
+
+```{r}
+pop <- read_excel("Data/Census_EW_2021.xlsx", sheet = "P01") %>% 
+  clean_names() %>%
+  slice(10:382) %>%
+  rename("la_code" = p01_census_2021_usual_resident_population_by_sex_local_authorities_in_england_and_wales_note_1,
+           "la_name" = x2, 
+         "total_pop" = x3,
+         "female_pop" = x5,
+         "male_pop" = x4)
+  
+pop$total_pop <- as.numeric(pop$total_pop)
+pop$male_pop <- as.numeric(pop$male_pop)
+pop$female_pop <- as.numeric(pop$female_pop)
+
+# Remove the regions
+remove.list <- paste(c("England", "North West", "North East", "Yorkshire and The Humber", "East Midlands", "West Midlands", "East of England", "London", "South East", "South West", "Wales"), collapse = "|")
+
+df %>% 
+  filter(!grepl(remove.list, area_name))
+
+
+
+head(pop)
+```
+
+
+## Read in urban/rural data 
+
+```{r}
+
+urb_rur <- read_excel("Data/Rural_Urban_2011.xlsx") %>% clean_names() %>%
+  rename("la_code" = lad18cd) %>%
+  rename("urb_rur" = broad_ruc11) %>%
+  rename("urb_pop" = total_urban_population_2011) %>%
+  rename("rur_pop" = total_rural_population_2011)
+head(urb_rur)
+
+```
+
+
+# Join datasets
+
+```{r}
+rm(la_gi)
+
+# joining shapefile to GI to make it an sf object
+la_gi <- left_join(shapefile, gi, by = "la_code")
+class(la_gi)
+
+# joining the sf object to the region table
+la_gi <- left_join(la_gi, region, by = "la_code") 
+class(la_gi)
+
+# joining the population counts
+la_gi <- left_join(la_gi, pop, by = "la_code")
+
+# joining the rban rual 
+la_gi <- left_join(la_gi, urb_rur, by = "la_code")
+
+
+head(la_gi)
+
+```
+
+
+# Calculate Rates
+
+```{r}
+la_gi <- la_gi %>% mutate_at(c('total_pop', 'female_pop', 'male_pop'), as.numeric)
+
+# Create new rate variables from total LA population 
+la_gi <- mutate(la_gi, pop_rate = (observation/total_pop)*10000, 
+              male_rate = (observation/male_pop)*10000, 
+              female_rate = (observation/female_pop)*10000)
+
+head(la_gi)
+```
+
+
+
+
+## Saving the spatial object
+
+```{r}
+#first remove any irrelevant columns
+class(la_gi)
+la_gi <- la_gi %>%
+  select(,-c(11, 20, 21, 25, 26, 28:30, 32:37))
+
+la_gi <- st_make_valid(la_gi)
+
+st_write(la_gi, "/Users/user/Documents/InteractiveGender/Shapefiles/gi_spatial.shp")
+
+
+
+```
+
+
+
+
+## EXPLANTORY ANALYSIS 
+
+
+## Plot all cats on one map 
+
+```{r}
+# Create a color palette for each category
+color_pal <- c("Gender identity the same as sex registered at birth" = "blue",
+               "Gender identity different from sex registered at birth but no specific identity given" = "green",
+               "Trans woman" = "red",
+               "Trans man" = "purple",
+               "All other gender identities" = "gray")
+
+# Create a ggplot object with the joined data
+p <- ggplot() + 
+  geom_sf(data = la_gi, aes(fill = gi_categories), color = "gray") + 
+  scale_fill_manual(values = color_pal, na.value = "white") +
+  labs(title = "Gender Identity in England", fill = "Gender Identity")
+
+# Display the plot
+p
+```
+
+
+
+
+
+## Plot seperate cats?
+
+```{r}
+## Split genders
+
+tm_shape(same) +
+  tm_fill("obsrvtn", style="jenks", title = "same counts") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Gender identity the same as registered at birth", main.title.size = 0.7, 
+            legend.position = c ("right", "bottom"), legend.title.size = 0.8)
+
+
+tm_shape(diff) +
+  tm_fill("obsrvtn", style="jenks", title = "same counts") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Gender identity different from sex registered at birth but no specific identity given", main.title.size = 0.7, 
+            legend.position = c ("right", "bottom"), legend.title.size = 0.8)
+
+
+tm_shape(t_women) +
+  tm_fill("obsrvtn", style="jenks", title = "same counts") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Trans Women", main.title.size = 0.7, 
+            legend.position = c ("right", "bottom"), legend.title.size = 0.8)
+
+
+tm_shape(t_man) +
+  tm_fill("obsrvtn", style="jenks", title = "same counts") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Trans Man", main.title.size = 0.7, 
+            legend.position = c ("right", "bottom"), legend.title.size = 0.8)
+
+
+tm_shape(all_other) +
+  tm_fill("obsrvtn", style="jenks", title = "same counts") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "All other gender identities", main.title.size = 0.7, 
+            legend.position = c ("right", "bottom"), legend.title.size = 0.8)
+
+
+## to make the map interactive
+tmap_mode("view")
+
+#can also add a new line of code i.e. 
+
+```
+
+
+
+
+Leaflet 
+
+```{r}
+
+same$lat <- as.numeric(same$lat)
+same$long <- as.numeric(same$long)
+
+# Creating a color palette based on the number range in the total column
+pal <- colorNumeric("Greens", domain = same$obsrvtn)
+
+# Getting rid of rows with NA values
+# Using the Base R method of filtering subset() because we're dealing with a SpatialPolygonsDataFrame and not a normal data frame, thus filter() wouldn't work
+# Setting up the pop up text
+popup_sb <- paste0("Total: ", as.character(same$obsrvtn))
+
+
+leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  setView(53.801277, -1.548567, zoom = 3) %>% 
+  addPolygons(data = same , 
+              fillColor = ~pal(same$obsrvtn), 
+              fillOpacity = 0.7, 
+              weight = 0.2, 
+              smoothFactor = 0.2, 
+              popup = ~popup_sb) %>%
+  addLegend(pal = pal, 
+            values = same$obsrvtn, 
+            position = "bottomright", 
+            title = "Gender identity the same")
+
+
+
+## with added interactive elements
+leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  setView(53.801277, -1.548567, zoom = 3) %>% 
+  addPolygons(data = same , 
+              fillColor = ~pal(same$obsrvtn), 
+              fillOpacity = 0.7, 
+              weight = 0.2, 
+              smoothFactor = 0.2, 
+              highlight = highlightOptions(
+                  weight = 5,
+                  color = "#666",
+                  fillOpacity = 0.7,
+                   bringToFront = TRUE),
+              label=popup_sb,
+              labelOptions = labelOptions(
+    style = list("font-weight" = "normal", padding = "3px 8px"),
+    textsize = "15px",
+    direction = "auto")) %>%
+  addLegend(pal = pal, 
+            values = same$obsrvtn, 
+            position = "bottomright", 
+            title = "Gender identity the same")
+
+```
+
+
+
+
+
+## Heat Map 
+
+
+```{r}
+la_gi$broad_ruc11
+
+# create a heatmap using ggplot2
+ggplot(la_gi, aes(x = la_code, y = gi_categories, fill = observation)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  facet_wrap(~ broad_ruc11, ncol = 1) +
+  labs(title = "Gender Identity Census Data by Local Authority and Location",
+       x = "Local Authority Code",
+       y = "Gender Identity Category") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+
+# create an interactive version of the heatmap using plotly
+install.packages("plotly")
+library(plotly)
+ggplotly()
+
+
+library(tmaptools)
+tm_shape(la_gi) + 
+  tm_heatmap(col = "gi_categories")
+
+
+
+ggplot(la_gi, aes(x = long, y = lat)) + 
+  annotation_map_tile() + 
+  stat_bin2d(alpha=0.7) + 
+  scale_fill_gradientn(colours = c("white","red"), 
+                       name = "Frequency")
+
+```
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,225 @@
+---
+title: "Exploring the UK 2021 Census Data: Gender Identity"
+output: html_document
+date: "2023-04-19"
+---
+
+## LOAD PACKAGES 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(janitor)
+library(ggmap)
+library(mapview)
+library(sf)
+library(readxl)
+library(janitor)
+library(tmap)
+library(dplyr)
+library(sp)
+library(spdep)
+library(ggplot2)
+library(ggspatial)
+
+```
+
+
+
+## LOAD CLEANED AND JO|INED DATA
+
+
+```{r}
+la_so <- st_read("/Users/user/Documents/InteractiveGender/Shapefiles/so_spatial.shp") %>%
+  clean_names() %>%
+  rename("so_categories" = s_ctgrs)
+head(la_so)
+
+# This line of code is important. This removes those invalid geometries (those with looped vertices), be patient it takes about 1-2 minutes to run. 
+st_is_valid(la_go, reason = T)
+la_go <- st_make_valid(la_go)
+
+# And remove NAs, mainly Welsh LAs
+sum(is.na(la_gi$observation))
+la_so <- na.omit(la_so)
+
+## FOR INDIVIDUAL CATS
+
+straight_heterosexual <- la_so %>% filter(so_categories == "Straight or Heterosexual")
+gay_lesbian <- la_so %>% filter(so_categories == "Gay or Lesbian")
+bisexual <- la_so %>% filter(so_categories == "Bisexual")
+all_other <- la_so %>% filter(so_categories == "All other sexual orientations")
+
+
+
+```
+
+
+
+## DATA PRE-PROCESSING 
+
+For those interest in how the data has been cleaned (fixing invalid geometries), joined (to resoon, urban vs rural, LA population)
+
+
+### Read in gender identity data
+
+```{r}
+so <- read_csv("Data/so_renamed.csv") %>% 
+  clean_names()
+
+#Delete 'Does not apply' apply category
+so <- so %>%
+  subset(so_code > 0)
+
+#Add percentages 
+so <- so %>% 
+  group_by(la_code) %>% 
+  mutate(total_observation = sum(observation),
+         percentage = observation / total_observation * 100)
+
+head(so$percentage)
+
+```
+
+
+## Read in LT Local Authority (shapefile)
+```{r}
+#Load the shapefile
+shapefile <- st_read("Shapefiles/LAD_DEC_2022_UK_BFC.shp") %>% clean_names()
+#change column name of LSOA code to match the LSOA code column in the SO polygon data
+colnames(shapefile)[which(names(shapefile) == "lad22cd")] <- "la_code"
+
+#check crs 
+st_crs(shapefile)
+
+#lets transform it to the correct crs
+shapefile <- st_transform(shapefile, 4326)
+
+#check the crs again 
+st_crs(shapefile)
+
+#Plot the empty shapefile using ggplot or base plot
+ggplot() + 
+  geom_sf(data = shapefile)
+
+plot(st_geometry(shapefile))
+
+# check class
+class(shapefile)
+```
+
+
+## Read in resoon data
+
+```{r}
+resoon <- read_csv("la_to_resoon.csv") %>%
+  clean_names() %>%
+   rename("la_code" = lad22cd, 
+         "la_name" = lad22nm,
+         "reg_code" = rgn22cd,
+         "reg_name" = rgn22nm)
+```
+
+
+## Read in LA population 
+
+
+```{r}
+pop <- read_excel("Data/Census_EW_2021.xlsx", sheet = "P01") %>% 
+  clean_names() %>%
+  slice(10:382) %>%
+  rename("la_code" = p01_census_2021_usual_resident_population_by_sex_local_authorities_in_england_and_wales_note_1,
+           "la_name" = x2, 
+         "total_pop" = x3,
+         "female_pop" = x5,
+         "male_pop" = x4)
+  
+pop$total_pop <- as.numeric(pop$total_pop)
+pop$male_pop <- as.numeric(pop$male_pop)
+pop$female_pop <- as.numeric(pop$female_pop)
+
+# Remove the resoons
+remove.list <- paste(c("England", "North West", "North East", "Yorkshire and The Humber", "East Midlands", "West Midlands", "East of England", "London", "South East", "South West", "Wales"), collapse = "|")
+
+df %>% 
+  filter(!grepl(remove.list, area_name))
+
+
+
+head(pop)
+```
+
+
+## Read in urban/rural data 
+
+```{r}
+
+urb_rur <- read_excel("Data/Rural_Urban_2011.xlsx") %>% clean_names() %>%
+  rename("la_code" = lad18cd) %>%
+  rename("urb_rur" = broad_ruc11) %>%
+  rename("urb_pop" = total_urban_population_2011) %>%
+  rename("rur_pop" = total_rural_population_2011)
+head(urb_rur)
+
+```
+
+
+# Join datasets
+
+```{r}
+rm(la_so)
+
+# joining shapefile to so to make it an sf object
+la_so <- left_join(shapefile, so, by = "la_code")
+class(la_so)
+
+# joining the sf object to the region table
+la_so <- left_join(la_so, region, by = "la_code") 
+class(la_so)
+
+# joining the population counts
+la_so <- left_join(la_so, pop, by = "la_code")
+
+# joining the rban rual 
+la_so <- left_join(la_so, urb_rur, by = "la_code")
+
+
+head(la_so)
+
+```
+
+
+# Calculate Rates
+
+```{r}
+la_so <- la_so %>% mutate_at(c('total_pop', 'female_pop', 'male_pop'), as.numeric)
+
+# Create new rate variables from total LA population 
+la_so <- mutate(la_so, pop_rate = (observation/total_pop)*10000, 
+              male_rate = (observation/male_pop)*10000, 
+              female_rate = (observation/female_pop)*10000)
+
+head(la_so)
+```
+
+
+
+
+## Saving the spatial object
+
+```{r}
+#first remove any irrelevant columns
+class(la_so)
+la_so <- la_so %>%
+  select(,-c(11, 20, 21, 25, 26, 28:30, 32:37))
+
+la_so <- st_make_valid(la_so)
+
+st_write(la_so, "/Users/user/Documents/InteractiveGender/Shapefiles/so_spatial.shp")
+
+
+
+```
+
