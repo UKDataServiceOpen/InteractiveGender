@@ -3,11 +3,11 @@
 import os
 # provides a means for interacting with the underlying operating system
 import pandas as pd
-# includes useful functions for manipulating data - getting it into the right format for graphs
+# includes functions for manipulating data - getting it into the right format for graphs
 import numpy as np
-# includes useful functions for performing mathematical operations
+# includes functions for performing mathematical operations
 import matplotlib.pylab as plt
-# plotting library with useful functions for visualisations
+# plotting library with functions for visualisations
 
 # Bokeh - a data visualisation library
 from bokeh.io import show, curdoc, output_notebook
@@ -616,6 +616,7 @@ sex_description = Div(text="""<h3>Sex</h3>
 width=500, height=200, css_classes=["shannon-description"])
 
 footer = Div(text="""
+<hr style='border-top: 1px solid;'>
 <h2>Created by Louise Capener</h2>
 <p>Organisation: UK Data Service</p>
 """, width=800, height=100)
