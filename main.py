@@ -1,11 +1,15 @@
 #Import relevant packages
 
 import os
+# provides a means for interacting with the underlying operating system
 import pandas as pd
+# includes useful functions for manipulating data - getting it into the right format for graphs
 import numpy as np
-import seaborn as sns
+# includes useful functions for performing mathematical operations
 import matplotlib.pylab as plt
+# plotting library with useful functions for visualisations
 
+# Bokeh - a data visualisation library
 from bokeh.io import show, curdoc, output_notebook
 from bokeh.layouts import column, row
 from bokeh.models import (
@@ -611,6 +615,11 @@ sex_description = Div(text="""<h3>Sex</h3>
 """,
 width=500, height=200, css_classes=["shannon-description"])
 
+footer = Div(text="""
+<h2>Created by Louise Capener</h2>
+<p>Organisation: UK Data Service</p>
+""", width=800, height=100)
+
 # Layout
 
 col1 = column(select_religion, p8, layout_1, layout_2, heading_sex, ly1, Spacer(height = 1),ly2)
@@ -620,7 +629,7 @@ final_layout_with_description = row(final_layout, default_description_2)
 final_layout.margin = (30, 30, 30, 30)
 
 
-r = column(layout, final_layout_with_description)
+r = column(layout, final_layout_with_description, footer)
 r.margin = (30, 30, 30, 30)  # Add margin to the final layout
 curdoc().add_root(r)
 
