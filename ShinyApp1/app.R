@@ -1,6 +1,6 @@
 ### APP for Gender Identity ### 
 
-Sys.setenv(SHINYSENDER_REMOTENAME="app.R")
+Sys.setenv(SHINYSENDER_REMOTENAME="GenderIdentityMaps")
 
 library(readr)
 library(janitor)
@@ -20,9 +20,12 @@ library(dplyr)
 library(ggplot2)
 library(leaflet)
 library(shinydashboard)
+library(shinysender)
 
 
 ## Read in cleaned and merged data
+ la_gi <- readRDS("la_gi.rds")
+
 # la_gi <- st_read("gi_spatial.shp") %>%
 #   clean_names() %>%
 #   rename("gi_categories" = g_ctgrs)
@@ -175,11 +178,6 @@ server <- function(input, output, session) {
     hclust = "Hierachical Clustering: groups similar objects into a dendrogram by merging similar objects iteratively",
     bclust = "Bagged Clustering: A partitioning cluster algorithm such as kmeans is run repeatedly on bootstrap samples from the original data. The resulting cluster centers are then combined using the hierarchical cluster algorithm",
     kmeans = "K Means: Partitions n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid)")
-  
-  la_gi <- st_read("/Users/user/Documents/Interactive_Gender/ShinyApp1/gi_spatial.shp") %>%
-    clean_names() %>%
-    rename("gi_categories" = g_ctgrs)
-  head(la_gi)
   
   # # Reactive expression for filtered data
   # gender_data <- reactive({

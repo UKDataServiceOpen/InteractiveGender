@@ -1,6 +1,6 @@
 ### APP for Sexual Orientation ### 
 
-Sys.setenv(SHINYSENDER_REMOTENAME="app.R")
+Sys.setenv(SHINYSENDER_REMOTENAME="SexualOrientationMaps")
 
 library(readr)
 library(janitor)
@@ -21,13 +21,17 @@ library(ggplot2)
 library(leaflet)
 library(shinydashboard)
 library(bslib)
+library(shinysender)
 
 
-# Do the same for the sexual orientation data
+## Read in cleaned and merged data
+la_gi <- readRDS("la_gi.rds")
+
+# # Do the same for the sexual orientation data
 # la_so <- st_read("/Users/user/Documents/Interactive_Gender/ShinyApp2/so_spatial.shp") %>%
 #   clean_names() %>%
 #   rename("so_categories" = s_ctgrs)
-# head(la_so)
+# # head(la_so)
 
 # # This line of code is important. This removes those invalid geometries (those with looped vertices), be patient it takes about 1-2 minutes to run. 
 # st_is_valid(la_so, reason = T)
@@ -36,9 +40,6 @@ library(bslib)
 # # And remove NAs, mainly Welsh LAs
 # sum(is.na(la_gi$observation))
 #la_so <- na.omit(la_so)
-
-
-
 
 
 ui <- navbarPage("UK Census 2021", 
@@ -320,12 +321,6 @@ server <- function(input, output, session) {
     hclust = "Hierachical Clustering: groups similar objects into a dendrogram by merging similar objects iteratively",
     bclust = "Bagged Clustering: A partitioning cluster algorithm such as kmeans is run repeatedly on bootstrap samples from the original data. The resulting cluster centers are then combined using the hierarchical cluster algorithm",
     kmeans = "K Means: Partitions n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid)")
-  
-  la_so <- st_read("/Users/user/Documents/Interactive_Gender/ShinyApp2/so_spatial.shp") %>%
-    clean_names() %>%
-    rename("so_categories" = s_ctgrs)
-  head(la_so)
-  
   
   so_data <- reactive({
     la_so %>%
