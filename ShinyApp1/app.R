@@ -1,6 +1,6 @@
 ### APP for Gender Identity ### 
 
-Sys.setenv(SHINYSENDER_REMOTENAME="app_g_identity.R")
+Sys.setenv(SHINYSENDER_REMOTENAME="GenderIdentityMaps")
 
 library(readr)
 library(janitor)
@@ -20,13 +20,16 @@ library(dplyr)
 library(ggplot2)
 library(leaflet)
 library(shinydashboard)
+library(shinysender)
 
 
 ## Read in cleaned and merged data
-la_gi <- st_read("/Users/user/Documents/InteractiveGender/Shapefiles/gi_spatial.shp") %>%
-  clean_names() %>%
-  rename("gi_categories" = g_ctgrs)
-head(la_gi)
+ la_gi <- readRDS("la_gi.rds")
+
+# la_gi <- st_read("gi_spatial.shp") %>%
+#   clean_names() %>%
+#   rename("gi_categories" = g_ctgrs)
+# head(la_gi)
 
 # This line of code is important. This removes those invalid geometries (those with looped vertices), be patient it takes about 1-2 minutes to run. 
 # st_is_valid(la_gi, reason = T)
@@ -37,22 +40,9 @@ head(la_gi)
 #la_gi <- na.omit(la_gi)
 
 
-classification_description <- list(
-              quantile = "Quantile: each class contains an equal number of location",
-              sd = "Standard Deviation: shows you how much a location's attribute value varies from the mean",
-              jenks = "Jenks: Clusters data into groups that minimize the within-group variance and maximize the between-group variance",
-              cont = "Continous: maps the values of col to a smooth gradient",
-              order = "Order: maps the order of values of col to a smooth gradient",
-              log10 = "Logarthimic Clustering: uses a logarithmic transformation",
-              hclust = "Hierachical Clustering: groups similar objects into a dendrogram by merging similar objects iteratively",
-              bclust = "Bagged Clustering: A partitioning cluster algorithm such as kmeans is run repeatedly on bootstrap samples from the original data. The resulting cluster centers are then combined using the hierarchical cluster algorithm",
-              kmeans = "K Means: Partitions n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid)")
-
-
-
 ui <- navbarPage(
   "UK Census 2021", 
-  
+
   # theme = bs_theme(),
   # windowTitle = "UK Census 2021",
   # header = list(
@@ -176,10 +166,18 @@ tabPanel("References",
 
 
 
-
-
-
 server <- function(input, output, session) {
+  
+  classification_description <- list(
+    quantile = "Quantile: each class contains an equal number of location",
+    sd = "Standard Deviation: shows you how much a location's attribute value varies from the mean",
+    jenks = "Jenks: Clusters data into groups that minimize the within-group variance and maximize the between-group variance",
+    cont = "Continous: maps the values of col to a smooth gradient",
+    order = "Order: maps the order of values of col to a smooth gradient",
+    log10 = "Logarthimic Clustering: uses a logarithmic transformation",
+    hclust = "Hierachical Clustering: groups similar objects into a dendrogram by merging similar objects iteratively",
+    bclust = "Bagged Clustering: A partitioning cluster algorithm such as kmeans is run repeatedly on bootstrap samples from the original data. The resulting cluster centers are then combined using the hierarchical cluster algorithm",
+    kmeans = "K Means: Partitions n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid)")
   
   # # Reactive expression for filtered data
   # gender_data <- reactive({
