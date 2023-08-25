@@ -1,0 +1,332 @@
+,LA_name,Observation,Non_Eng_Percentages,NR_rate,region,Urb_Rur,Shannon_idx
+0,Adur,1971,3.14,6.47,South East,Predominantly Urban,0.1762813156023807
+1,Allerdale,1073,1.15,6.18,North West,Predominantly Rural,0.050052600958954134
+2,Amber Valley,1850,1.51,6.77,East Midlands,Predominantly Urban,0.10406339713742929
+3,Arun,9469,5.89,7.09,South East,Predominantly Urban,0.14657577545850262
+4,Ashfield,3944,3.22,6.77,East Midlands,Predominantly Urban,0.17628202286783365
+5,Ashford,8710,6.78,6.52,South East,Urban with Significant Rural,0.45236663013677975
+6,Babergh,1561,1.73,6.85,East of England,Predominantly Rural,0.1251514285258852
+7,Barking and Dagenham,50244,24.05,9.14,London,Predominantly Urban,0.6625988449740402
+8,Barnet,86047,22.94,9.94,London,Predominantly Urban,0.9863276530100588
+9,Barnsley,10134,4.28,5.83,Yorkshire and The Humber,Predominantly Urban,0.11778413444526044
+10,Barrow-in-Furness,1043,1.6,6.39,North West,Urban with Significant Rural,0.11467880712149645
+11,Basildon,9273,5.14,6.24,East of England,Predominantly Urban,0.2873086557096258
+12,Basingstoke and Deane,12631,7.06,6.06,South East,Urban with Significant Rural,0.4260592603242068
+13,Bassetlaw,4756,4.16,6.48,East Midlands,Predominantly Rural,0.1058309676588122
+14,Bath and North East Somerset,9222,4.9,7.72,South West,Urban with Significant Rural,0.19309601906551263
+15,Bedford,21719,12.15,7.25,East of England,Urban with Significant Rural,0.5754315110943117
+16,Bexley,22657,9.53,6.97,London,Predominantly Urban,0.544079426835203
+17,Birmingham,171460,15.57,9.42,West Midlands,Predominantly Urban,0.7007721814081151
+18,Blaby,5286,5.3,6.07,East Midlands,Predominantly Urban,0.48774298661057075
+19,Blackburn with Darwen,18550,12.47,8.28,North West,Predominantly Urban,0.414634861150258
+20,Blackpool,6036,4.42,6.66,North West,Predominantly Urban,0.19580947239018437
+21,Blaenau Gwent,1204,1.86,7.1,Wales,Welsh/not specified,0.1476289400616139
+22,Bolsover,2903,3.73,6.42,East Midlands,Urban with Significant Rural,0.09857853657977649
+23,Bolton,31208,10.95,6.86,North West,Predominantly Urban,0.5795793952551436
+24,Boston,14173,20.71,9.69,East Midlands,Urban with Significant Rural,0.045905384418878994
+25,"Bournemouth, Christchurch and Poole",32213,8.28,7.64,South West,Not specified,0.307835979025594
+26,Bracknell Forest,9271,7.7,6.02,South East,Predominantly Urban,0.49459556623330087
+27,Bradford,65208,12.42,8.76,Yorkshire and The Humber,Predominantly Urban,0.5468480239282734
+28,Braintree,4439,2.95,6.53,East of England,Predominantly Rural,0.16044545318952919
+29,Breckland,8724,6.34,7.46,East of England,Predominantly Rural,0.14576400859421182
+30,Brent,110404,33.68,11.7,London,Predominantly Urban,0.8614173347850848
+31,Brentwood,3015,4.05,6.28,East of England,Urban with Significant Rural,0.298233630938861
+32,Bridgend,2483,1.76,6.47,Wales,Welsh/not specified,0.1388187144709775
+33,Brighton and Hove,24579,9.1,8.66,South East,Predominantly Urban,0.3362037630931546
+34,Bristol,46235,10.12,8.48,South West,Predominantly Urban,0.4427763316821846
+35,Broadland,2445,1.91,6.44,East of England,Urban with Significant Rural,0.12273224118995632
+36,Bromley,25701,8.07,7.3,London,Predominantly Urban,0.43027026970359394
+37,Bromsgrove,1479,1.54,5.97,West Midlands,Predominantly Urban,0.19600283265788002
+38,Broxbourne,8649,9.05,6.89,East of England,Predominantly Urban,0.42368464112055476
+39,Broxtowe,5358,4.97,6.66,East Midlands,Predominantly Urban,0.3264106929607546
+40,Buckinghamshire,38876,7.26,7.09,South East,Not specified,0.6018146384682912
+41,Burnley,8169,8.95,7.59,North West,Predominantly Urban,0.4776718520172925
+42,Bury,12257,6.55,6.59,North West,Predominantly Urban,0.7102853307757006
+43,Caerphilly,2046,1.2,6.61,Wales,Welsh/not specified,0.11072347004583419
+44,Calderdale,9294,4.65,6.89,Yorkshire and The Humber,Predominantly Urban,0.5145930159110349
+45,Cambridge,28407,20.02,11.91,East of England,Predominantly Urban,0.45647182774793815
+46,Camden,43382,21.26,10.51,London,Predominantly Urban,0.7360507134292681
+47,Cannock Chase,1722,1.77,5.41,West Midlands,Urban with Significant Rural,0.09609539302069843
+48,Canterbury,8354,5.44,8.0,South East,Predominantly Urban,0.3083898139143881
+49,Cardiff,31088,8.85,7.65,Wales,Welsh/not specified,0.5715978752384218
+50,Carlisle,3807,3.56,6.47,North West,Urban with Significant Rural,0.15076367800203383
+51,Carmarthenshire,4432,2.43,7.92,Wales,Welsh/not specified,0.1389365223649734
+52,Castle Point,1477,1.7,6.13,East of England,Predominantly Urban,0.2786920707515601
+53,Central Bedfordshire,13773,4.85,6.15,East of England,Predominantly Rural,0.258364235726483
+54,Ceredigion,2059,2.95,10.43,Wales,Welsh/not specified,0.18424620970736924
+55,Charnwood,11900,6.66,7.21,East Midlands,Predominantly Urban,0.5880623834052995
+56,Chelmsford,9002,5.12,6.49,East of England,Predominantly Urban,0.3073815933879588
+57,Cheltenham,7964,6.9,6.92,South West,Predominantly Urban,0.3060030954045249
+58,Cherwell,14425,9.28,6.8,South East,Urban with Significant Rural,0.3277861210266835
+59,Cheshire East,16413,4.24,6.06,North West,Urban with Significant Rural,0.16622302672651237
+60,Cheshire West and Chester,11598,3.34,6.0,North West,Urban with Significant Rural,0.1621719239937815
+61,Chesterfield,2252,2.24,6.52,East Midlands,Predominantly Urban,0.17910510880516528
+62,Chichester,4014,3.32,6.56,South East,Predominantly Rural,0.17452433355511315
+63,Chorley,2504,2.19,5.85,North West,Urban with Significant Rural,0.17549090715560448
+64,City of London,1826,21.61,10.37,London,Predominantly Urban,0.6314243624639237
+65,Colchester,12348,6.62,7.14,East of England,Urban with Significant Rural,0.35277453748951443
+66,Conwy,2057,1.84,8.29,Wales,Welsh/not specified,0.13392136846197972
+67,Copeland,656,1.0,6.22,North West,Predominantly Rural,0.027121053139453732
+68,Cornwall,10226,1.84,7.65,South West,Predominantly Rural,0.1411995605059426
+69,Cotswold,1963,2.22,6.32,South West,Predominantly Rural,0.10706500204418205
+70,County Durham,9565,1.88,5.77,North East,Predominantly Rural,0.11678850126002113
+71,Coventry,58334,17.51,8.85,West Midlands,Predominantly Urban,0.7559976657802748
+72,Craven,903,1.62,6.57,Yorkshire and The Humber,Predominantly Rural,0.15708138567039306
+73,Crawley,17852,15.67,7.22,South East,Predominantly Urban,0.7247570697368024
+74,Croydon,60237,16.04,9.13,London,Predominantly Urban,0.6794871752794223
+75,Dacorum,9320,6.23,6.65,East of England,Urban with Significant Rural,0.4249105328984956
+76,Darlington,4403,4.21,5.69,North East,Predominantly Urban,0.2609291411617787
+77,Dartford,10461,9.35,6.54,South East,Predominantly Urban,0.531075895367446
+78,Denbighshire,1610,1.73,8.28,Wales,Welsh/not specified,0.12735445166081089
+79,Derby,32670,12.95,8.72,East Midlands,Predominantly Urban,0.6426270849893302
+80,Derbyshire Dales,658,0.94,6.82,East Midlands,Predominantly Rural,0.129158515762028
+81,Doncaster,21578,7.24,6.56,Yorkshire and The Humber,Predominantly Urban,0.24861752312791838
+82,Dorset,6790,1.83,7.18,South West,Not specified,0.12659437541639348
+83,Dover,4034,3.57,6.79,South East,Urban with Significant Rural,0.23287551795958195
+84,Dudley,13922,4.45,7.04,West Midlands,Predominantly Urban,0.4726082751924776
+85,Ealing,109501,30.9,10.35,London,Predominantly Urban,0.9859898070493174
+86,East Cambridgeshire,4197,4.93,6.92,East of England,Predominantly Rural,0.20301125027374034
+87,East Devon,2776,1.89,7.18,South West,Predominantly Rural,0.11025391959188922
+88,East Hampshire,3502,2.86,6.31,South East,Predominantly Rural,0.18648163826930117
+89,East Hertfordshire,6692,4.61,6.3,East of England,Urban with Significant Rural,0.2473329921186256
+90,East Lindsey,2089,1.5,7.9,East Midlands,Predominantly Rural,0.026539855638574035
+91,East Riding of Yorkshire,7325,2.19,6.77,Yorkshire and The Humber,Predominantly Rural,0.09546097032216817
+92,East Staffordshire,11977,9.98,7.19,West Midlands,Urban with Significant Rural,0.433280543786127
+93,East Suffolk,4973,2.07,7.2,East of England,Not specified,0.13486077600060833
+94,Eastbourne,7263,7.34,8.05,South East,Predominantly Urban,0.3063764666144268
+95,Eastleigh,4858,3.68,5.71,South East,Predominantly Urban,0.290530031208892
+96,Eden,1245,2.33,7.03,North West,Predominantly Rural,0.051187154132327495
+97,Elmbridge,9189,6.86,6.6,South East,Predominantly Urban,0.36812671808943265
+98,Enfield,74807,23.55,9.67,London,Predominantly Urban,0.7688120339732176
+99,Epping Forest,7880,6.05,6.72,East of England,Urban with Significant Rural,0.5065091773349428
+100,Epsom and Ewell,7017,8.96,6.92,South East,Predominantly Urban,0.4902783491926721
+101,Erewash,2599,2.37,6.35,East Midlands,Predominantly Urban,0.15637674684621292
+102,Exeter,9904,7.79,8.52,South West,Predominantly Urban,0.30517660731234914
+103,Fareham,2161,1.94,5.76,South East,Predominantly Urban,0.1422531332454128
+104,Fenland,8801,8.85,7.54,East of England,Predominantly Rural,0.1309726660541236
+105,Flintshire,5518,3.67,7.28,Wales,Welsh/not specified,0.08233218388136967
+106,Folkestone and Hythe,5149,4.82,6.66,South East,Urban with Significant Rural,0.37180097314102706
+107,Forest of Dean,1571,1.86,7.11,South West,Predominantly Rural,0.12357958527833802
+108,Fylde,1758,2.21,5.77,North West,Predominantly Urban,0.1412042162159401
+109,Gateshead,8010,4.21,5.49,North East,Predominantly Urban,0.5172766891326762
+110,Gedling,3691,3.24,6.14,East Midlands,Predominantly Urban,0.3295533646419882
+111,Gloucester,10258,8.01,7.07,South West,Predominantly Urban,0.39738772372358994
+112,Gosport,1792,2.26,5.87,South East,Predominantly Urban,0.1962091433892604
+113,Gravesham,12284,11.92,6.65,South East,Predominantly Urban,0.5830596677341046
+114,Great Yarmouth,6128,6.32,7.8,East of England,Urban with Significant Rural,0.10004322169549151
+115,Greenwich,50566,18.22,8.56,London,Predominantly Urban,0.7071097643699568
+116,Guildford,11299,8.09,7.73,South East,Predominantly Urban,0.35165579281406395
+117,Gwynedd,2855,2.5,9.35,Wales,Welsh/not specified,0.1578226729053837
+118,Hackney,49524,19.87,12.6,London,Predominantly Urban,0.8778284141320764
+119,Halton,3315,2.66,5.46,North West,Predominantly Urban,0.16526663144857628
+120,Hambleton,1338,1.51,6.23,Yorkshire and The Humber,Predominantly Rural,0.007734279915947688
+121,Hammersmith and Fulham,37965,21.37,9.71,London,Predominantly Urban,0.5687196450982774
+122,Harborough,2663,2.81,6.02,East Midlands,Predominantly Rural,0.32436867894298027
+123,Haringey,69460,27.23,10.99,London,Predominantly Urban,0.8196681743923067
+124,Harlow,9350,10.43,6.7,East of England,Predominantly Urban,0.3510930066418614
+125,Harrogate,5030,3.17,6.93,Yorkshire and The Humber,Urban with Significant Rural,0.11672787071555177
+126,Harrow,77406,30.74,10.82,London,Predominantly Urban,0.9252190798452821
+127,Hart,3573,3.71,5.48,South East,Urban with Significant Rural,0.2984547654851754
+128,Hartlepool,1875,2.1,6.1,North East,Predominantly Urban,0.22166837635291328
+129,Hastings,4613,5.24,8.34,South East,Predominantly Urban,0.2827257597557456
+130,Havant,2587,2.14,6.16,South East,Predominantly Urban,0.13998491685036038
+131,Havering,24935,9.88,6.98,London,Predominantly Urban,0.46182651245779116
+132,Herefordshire,8691,4.77,8.12,West Midlands,Predominantly Rural,0.10622071298163561
+133,Hertsmere,10714,10.29,7.48,East of England,Predominantly Urban,0.7676547288363345
+134,High Peak,1146,1.3,6.21,East Midlands,Predominantly Rural,0.10570296054031028
+135,Hillingdon,64975,22.08,8.87,London,Predominantly Urban,0.9977584073112097
+136,Hinckley and Bosworth,3144,2.85,5.89,East Midlands,Predominantly Rural,0.20958063713492533
+137,Horsham,4825,3.38,6.21,South East,Predominantly Rural,0.2047138651996631
+138,Hounslow,78555,28.32,9.82,London,Predominantly Urban,1.0
+139,Huntingdonshire,9323,5.32,6.2,East of England,Predominantly Rural,0.22532445598191744
+140,Hyndburn,4764,6.0,7.18,North West,Predominantly Urban,0.4561042293880812
+141,Ipswich,15836,11.75,7.79,East of England,Predominantly Urban,0.3804513154302654
+142,Isle of Anglesey,622,0.93,7.97,Wales,Welsh/not specified,0.07146686024979167
+143,Isle of Wight,2556,1.86,7.78,South East,Predominantly Rural,0.14604549878249784
+144,Isles of Scilly,46,2.32,6.82,South West,Predominantly Rural,0.08940293269461483
+145,Islington,39805,18.99,9.65,London,Predominantly Urban,0.6104028889900632
+146,Kensington and Chelsea,32962,23.6,10.98,London,Predominantly Urban,0.5814918895148641
+147,King's Lynn and West Norfolk,8642,5.76,7.68,East of England,Predominantly Rural,0.10802933123287314
+148,Kingston upon Hull,25805,10.02,8.2,Yorkshire and The Humber,Predominantly Urban,0.24022650745485535
+149,Kingston upon Thames,28104,17.29,8.5,London,Predominantly Urban,0.7313322880610312
+150,Kirklees,32424,7.75,7.43,Yorkshire and The Humber,Predominantly Urban,0.5689994719896693
+151,Knowsley,4509,3.03,5.7,North West,Predominantly Urban,0.06868410784726998
+152,Lambeth,54987,17.84,9.07,London,Predominantly Urban,0.5453139181834017
+153,Lancaster,7369,5.3,7.86,North West,Urban with Significant Rural,0.28147305621882124
+154,Leeds,71278,9.09,7.33,Yorkshire and The Humber,Predominantly Urban,0.5371478737461696
+155,Leicester,106800,30.04,10.6,East Midlands,Predominantly Urban,0.955986518431329
+156,Lewes,2806,2.88,7.04,South East,Urban with Significant Rural,0.24867716808816334
+157,Lewisham,46869,16.22,9.75,London,Predominantly Urban,0.5363422049542342
+158,Lichfield,2125,2.05,5.35,West Midlands,Urban with Significant Rural,0.2008774765495983
+159,Lincoln,9843,9.77,8.92,East Midlands,Predominantly Urban,0.2552205806078585
+160,Liverpool,44987,9.56,7.55,North West,Predominantly Urban,0.40525284898029784
+161,Luton,49752,23.06,9.86,East of England,Predominantly Urban,0.6622396749390286
+162,Maidstone,13281,7.83,6.44,South East,Urban with Significant Rural,0.36086577492986455
+163,Maldon,782,1.21,5.83,East of England,Predominantly Rural,0.11210367884419742
+164,Malvern Hills,1475,1.9,6.94,West Midlands,Predominantly Rural,0.0841709929356126
+165,Manchester,97194,18.29,8.71,North West,Predominantly Urban,0.6388588553983197
+166,Mansfield,8328,7.78,6.43,East Midlands,Predominantly Urban,0.17994525437036765
+167,Medway,17555,6.51,6.68,South East,Predominantly Urban,0.4379769034199932
+168,Melton,1441,2.86,6.19,East Midlands,Predominantly Rural,0.0786871442442666
+169,Mendip,3187,2.82,8.01,South West,Predominantly Rural,0.20497270045745566
+170,Merthyr Tydfil,2176,3.82,6.1,Wales,Welsh/not specified,0.12113622196592091
+171,Merton,44398,21.45,9.22,London,Predominantly Urban,0.7295603397974431
+172,Mid Devon,2138,2.66,7.37,South West,Predominantly Rural,0.14355865603316864
+173,Mid Suffolk,1482,1.48,6.15,East of England,Predominantly Rural,0.09357671834902412
+174,Mid Sussex,5951,4.03,6.32,South East,Predominantly Urban,0.3028392660854559
+175,Middlesbrough,10510,7.57,7.28,North East,Predominantly Urban,0.5014829593845113
+176,Milton Keynes,34868,12.59,7.3,South East,Predominantly Urban,0.6416459522988983
+177,Mole Valley,3113,3.66,6.42,South East,Urban with Significant Rural,0.21892219176711758
+178,Monmouthshire,1457,1.61,6.93,Wales,Welsh/not specified,0.13630543880897836
+179,Neath Port Talbot,2009,1.45,7.45,Wales,Welsh/not specified,0.15572958638277254
+180,New Forest,3378,1.97,6.71,South East,Urban with Significant Rural,0.11237812718585184
+181,Newark and Sherwood,4890,4.09,6.41,East Midlands,Predominantly Rural,0.11632689988072797
+182,Newcastle upon Tyne,30894,10.62,7.6,North East,Predominantly Urban,0.5300771509128382
+183,Newcastle-under-Lyme,4161,3.47,6.72,West Midlands,Predominantly Urban,0.19239225865490045
+184,Newham,116570,34.63,10.72,London,Predominantly Urban,0.7251919179635699
+185,Newport,10035,6.52,6.84,Wales,Welsh/not specified,0.3935691170308476
+186,North Devon,1826,1.9,7.4,South West,Predominantly Rural,0.10892660484773757
+187,North East Derbyshire,1106,1.11,5.93,East Midlands,Predominantly Urban,0.05636465261650067
+188,North East Lincolnshire,5882,3.87,6.65,Yorkshire and The Humber,Predominantly Urban,0.1891411880157677
+189,North Hertfordshire,5595,4.34,6.49,East of England,Urban with Significant Rural,0.38735562740909124
+190,North Kesteven,2306,2.01,6.42,East Midlands,Predominantly Rural,0.11905355140751665
+191,North Lincolnshire,10526,6.39,6.93,Yorkshire and The Humber,Urban with Significant Rural,0.2281450019762635
+192,North Norfolk,1317,1.3,8.16,East of England,Predominantly Rural,0.08411819649792113
+193,North Northamptonshire,32849,9.45,7.01,East Midlands,Not specified,0.293936650789841
+194,North Somerset,8268,3.93,6.76,South West,Urban with Significant Rural,0.1678309758736639
+195,North Tyneside,4981,2.46,5.23,North East,Predominantly Urban,0.20780014280242723
+196,North Warwickshire,1263,2.0,5.81,West Midlands,Predominantly Rural,0.0586931748270077
+197,North West Leicestershire,3044,3.0,6.06,East Midlands,Predominantly Rural,0.17435304788564235
+198,Northumberland,3506,1.12,5.64,North East,Predominantly Rural,0.12615535778358697
+199,Norwich,14048,10.05,8.65,East of England,Predominantly Urban,0.41204153087660617
+200,Nottingham,44849,14.32,9.81,East Midlands,Predominantly Urban,0.6291047471758923
+201,Nuneaton and Bedworth,9552,7.37,6.37,West Midlands,Predominantly Urban,0.5024631249321315
+202,Oadby and Wigston,5655,10.07,7.8,East Midlands,Predominantly Urban,0.9163172516837897
+203,Oldham,24819,10.66,7.27,North West,Predominantly Urban,0.4672830297608167
+204,Oxford,28608,18.14,12.74,South East,Predominantly Urban,0.5419818068772718
+205,Pembrokeshire,1636,1.36,7.89,Wales,Welsh/not specified,0.12201880245836241
+206,Pendle,11400,12.36,8.57,North West,Predominantly Urban,0.46268382802534264
+207,Peterborough,41385,19.95,8.09,East of England,Predominantly Urban,0.5784748169154907
+208,Plymouth,11555,4.5,6.6,South West,Predominantly Urban,0.24856687938583397
+209,Portsmouth,18546,9.21,7.68,South East,Predominantly Urban,0.4157387408903333
+210,Powys,2496,1.92,8.74,Wales,Welsh/not specified,0.1431168597811784
+211,Preston,17648,12.38,7.71,North West,Predominantly Urban,0.6402112577198652
+212,Reading,31735,18.87,9.01,South East,Predominantly Urban,0.7611946889835131
+213,Redbridge,78711,26.45,9.72,London,Predominantly Urban,0.9530541091742274
+214,Redcar and Cleveland,1460,1.1,6.27,North East,Urban with Significant Rural,0.10913271055225884
+215,Redditch,6396,7.6,6.4,West Midlands,Predominantly Urban,0.33603289110178264
+216,Reigate and Banstead,9066,6.23,6.7,South East,Predominantly Urban,0.4133860967032405
+217,Rhondda Cynon Taf,3452,1.5,7.09,Wales,Welsh/not specified,0.1618832304331017
+218,Ribble Valley,842,1.4,5.86,North West,Predominantly Rural,0.06857246977203373
+219,Richmond upon Thames,21368,11.31,7.6,London,Predominantly Urban,0.5305332577745404
+220,Richmondshire,1591,3.29,5.84,Yorkshire and The Humber,Predominantly Rural,0.20880312514924873
+221,Rochdale,20363,9.46,6.69,North West,Predominantly Urban,0.49246651921950396
+222,Rochford,922,1.11,5.49,East of England,Predominantly Urban,0.17046812625570212
+223,Rossendale,1533,2.23,6.3,North West,Predominantly Urban,0.3297662831874709
+224,Rother,1770,1.95,7.67,South East,Predominantly Rural,0.12448443375093296
+225,Rotherham,10656,4.14,6.03,Yorkshire and The Humber,Predominantly Urban,0.3732010320266109
+226,Rugby,12748,11.52,6.96,West Midlands,Predominantly Urban,0.3953167169052185
+227,Runnymede,6960,8.17,7.97,South East,Predominantly Urban,0.4301743935110675
+228,Rushcliffe,3503,3.03,6.11,East Midlands,Predominantly Rural,0.3725243355337988
+229,Rushmoor,14422,15.03,6.67,South East,Predominantly Urban,0.8033687346070093
+230,Rutland,772,1.92,6.07,East Midlands,Predominantly Rural,0.1536315805442989
+231,Ryedale,1160,2.17,7.0,Yorkshire and The Humber,Predominantly Rural,0.04376191250406017
+232,Salford,29504,11.38,7.94,North West,Predominantly Urban,0.6678794183508263
+233,Sandwell,54042,16.44,8.41,West Midlands,Predominantly Urban,0.8383157709932045
+234,Scarborough,3162,2.98,7.24,Yorkshire and The Humber,Urban with Significant Rural,0.1190736100476952
+235,Sedgemoor,5742,4.71,7.28,South West,Predominantly Rural,0.09175533821332103
+236,Sefton,9647,3.55,6.09,North West,Predominantly Urban,0.13488499910745536
+237,Selby,2515,2.82,5.75,Yorkshire and The Humber,Predominantly Rural,0.07431069493063468
+238,Sevenoaks,3942,3.38,6.35,South East,Predominantly Rural,0.1844624163985482
+239,Sheffield,47330,8.78,7.87,Yorkshire and The Humber,Predominantly Urban,0.4766809729023745
+240,Shropshire,8254,2.62,7.12,West Midlands,Predominantly Rural,0.10847629516997283
+241,Slough,41438,27.32,9.82,South East,Predominantly Urban,0.8943284682134974
+242,Solihull,9424,4.5,6.17,West Midlands,Predominantly Urban,0.5050271835920508
+243,Somerset West and Taunton,6837,4.46,7.51,South West,Not specified,0.12632138840094811
+244,South Cambridgeshire,10679,6.8,7.24,East of England,Predominantly Rural,0.2713885581461157
+245,South Derbyshire,3202,3.09,5.85,East Midlands,Urban with Significant Rural,0.20914821658718546
+246,South Gloucestershire,15112,5.38,6.53,South West,Predominantly Urban,0.2703358855958872
+247,South Hams,1220,1.41,7.2,South West,Predominantly Rural,0.18018360365089725
+248,South Holland,10400,11.26,8.75,East Midlands,Predominantly Rural,0.0
+249,South Kesteven,5982,4.29,6.54,East Midlands,Predominantly Rural,0.1342456085560153
+250,South Lakeland,2592,2.54,6.97,North West,Predominantly Rural,0.11779606983111597
+251,South Norfolk,3550,2.57,6.56,East of England,Predominantly Rural,0.16067397770448533
+252,South Oxfordshire,6930,4.8,6.54,South East,Predominantly Rural,0.23251244960463716
+253,South Ribble,2221,2.06,5.52,North West,Predominantly Urban,0.13115269766350615
+254,South Somerset,7110,4.24,7.41,South West,Predominantly Rural,0.09726433513407984
+255,South Staffordshire,1306,1.21,5.46,West Midlands,Urban with Significant Rural,0.12161763276781268
+256,South Tyneside,3236,2.26,5.36,North East,Predominantly Urban,0.2916659117546712
+257,Southampton,37042,15.39,8.3,South East,Predominantly Urban,0.5218823187215244
+258,Southend-on-Sea,10315,5.9,6.98,East of England,Predominantly Urban,0.42014273301810673
+259,Southwark,53723,18.04,9.21,London,Predominantly Urban,0.5069727711850018
+260,Spelthorne,10022,10.09,7.08,South East,Predominantly Urban,0.5864012039495445
+261,St Albans,9070,6.33,6.61,East of England,Predominantly Urban,0.49771036403700086
+262,St. Helens,4946,2.78,5.46,North West,Predominantly Urban,0.14225334430293005
+263,Stafford,4678,3.52,6.24,West Midlands,Urban with Significant Rural,0.22200917719952692
+264,Staffordshire Moorlands,823,0.88,6.3,West Midlands,Predominantly Rural,0.005786225183392889
+265,Stevenage,7024,8.15,6.62,East of England,Predominantly Urban,0.41264185717086455
+266,Stockport,12253,4.3,6.0,North West,Predominantly Urban,0.39427709095677055
+267,Stockton-on-Tees,5674,2.98,5.87,North East,Predominantly Urban,0.29996283824145387
+268,Stoke-on-Trent,21978,8.83,7.95,West Midlands,Predominantly Urban,0.4331134432561651
+269,Stratford-on-Avon,4448,3.39,6.26,West Midlands,Predominantly Rural,0.15607306872134336
+270,Stroud,2167,1.84,6.98,South West,Urban with Significant Rural,0.15948262725394
+271,Sunderland,6887,2.59,5.34,North East,Predominantly Urban,0.21864465003259
+272,Surrey Heath,5726,6.52,6.05,South East,Predominantly Urban,0.5154748601902386
+273,Sutton,28868,14.27,7.65,London,Predominantly Urban,0.6751596590132793
+274,Swale,5560,3.8,5.97,South East,Predominantly Rural,0.23089421915275987
+275,Swansea,11023,4.75,7.79,Wales,Welsh/not specified,0.3123448212525711
+276,Swindon,22540,9.99,7.04,South West,Predominantly Urban,0.44938876679054285
+277,Tameside,13171,5.9,5.93,North West,Predominantly Urban,0.4766919667024334
+278,Tamworth,3293,4.33,5.6,West Midlands,Predominantly Urban,0.11988791262068545
+279,Tandridge,2625,3.09,6.59,South East,Urban with Significant Rural,0.28919547021867287
+280,Teignbridge,1802,1.37,7.2,South West,Predominantly Rural,0.13972251773811195
+281,Telford and Wrekin,11898,6.64,7.06,West Midlands,Predominantly Urban,0.41909160364833037
+282,Tendring,2350,1.63,7.49,East of England,Predominantly Rural,0.12587163417342204
+283,Test Valley,5337,4.22,6.13,South East,Urban with Significant Rural,0.24259797213642975
+284,Tewkesbury,3077,3.35,6.21,South West,Predominantly Rural,0.14111565206350873
+285,Thanet,6396,4.69,7.05,South East,Predominantly Urban,0.29111240765716523
+286,Three Rivers,7013,7.73,6.57,East of England,Predominantly Urban,0.6464406689574788
+287,Thurrock,19094,11.31,6.57,East of England,Predominantly Urban,0.4308183928346908
+288,Tonbridge and Malling,3966,3.1,5.97,South East,Urban with Significant Rural,0.26594785748163857
+289,Torbay,3986,2.93,7.37,South West,Predominantly Urban,0.13417153132545356
+290,Torfaen,1318,1.47,6.97,Wales,Welsh/not specified,0.1303421681008798
+291,Torridge,681,1.02,7.76,South West,Predominantly Rural,0.09837110507643172
+292,Tower Hamlets,80621,26.99,9.76,London,Predominantly Urban,0.6369997322691645
+293,Trafford,16277,7.16,6.19,North West,Predominantly Urban,0.5695470198178734
+294,Tunbridge Wells,5923,5.3,6.91,South East,Urban with Significant Rural,0.2701659001561599
+295,Uttlesford,2684,3.03,5.96,East of England,Predominantly Rural,0.2180823090484762
+296,Vale of Glamorgan,2275,1.78,6.6,Wales,Welsh/not specified,0.25874753866575423
+297,Vale of White Horse,7484,5.57,6.64,South East,Predominantly Rural,0.27560806415799644
+298,Wakefield,18933,5.54,6.24,Yorkshire and The Humber,Predominantly Urban,0.2836642781784437
+299,Walsall,26705,9.77,7.6,West Midlands,Predominantly Urban,0.7209330358245908
+300,Waltham Forest,59785,22.42,9.49,London,Predominantly Urban,0.6887198378632647
+301,Wandsworth,54091,17.13,8.34,London,Predominantly Urban,0.6388207578327952
+302,Warrington,11129,5.44,5.69,North West,Predominantly Urban,0.276253442933134
+303,Warwick,12087,8.39,6.81,West Midlands,Predominantly Urban,0.51229101607332
+304,Watford,18717,19.03,8.35,East of England,Predominantly Urban,0.7816881166424039
+305,Waverley,4552,3.65,6.62,South East,Predominantly Rural,0.24233211584339812
+306,Wealden,3148,2.02,6.83,South East,Predominantly Rural,0.1606332516284909
+307,Welwyn Hatfield,12156,10.48,7.74,East of England,Predominantly Urban,0.4086753041061289
+308,West Berkshire,7505,4.79,6.47,South East,Urban with Significant Rural,0.31593766730323974
+309,West Devon,761,1.36,7.6,South West,Predominantly Rural,0.12425482687329288
+310,West Lancashire,3750,3.28,6.39,North West,Urban with Significant Rural,0.09002962033187253
+311,West Lindsey,1460,1.58,6.47,East Midlands,Predominantly Rural,0.09990243823926231
+312,West Northamptonshire,44949,10.92,7.42,East Midlands,Not specified,0.35608668406364663
+313,West Oxfordshire,4046,3.65,5.96,South East,Predominantly Rural,0.15355337146266038
+314,West Suffolk,9769,5.61,6.94,East of England,Not specified,0.21614060438406874
+315,Westminster,52599,26.44,11.2,London,Predominantly Urban,0.7396666199084392
+316,Wigan,11192,3.51,5.51,North West,Predominantly Urban,0.1601692272553175
+317,Wiltshire,17204,3.47,6.57,South West,Predominantly Rural,0.2139789196009386
+318,Winchester,4268,3.44,6.57,South East,Predominantly Rural,0.2192968191506918
+319,Windsor and Maidenhead,12892,8.66,6.96,South East,Predominantly Urban,0.6026533770758835
+320,Wirral,7236,2.33,6.47,North West,Predominantly Urban,0.17593720020436265
+321,Woking,11221,11.19,6.57,South East,Predominantly Urban,0.5412279956887058
+322,Wokingham,13737,7.99,6.57,South East,Predominantly Urban,0.6563134482009398
+323,Wolverhampton,38189,15.02,8.33,West Midlands,Predominantly Urban,0.7985570555454422
+324,Worcester,7819,7.77,7.16,West Midlands,Predominantly Urban,0.3369506092456451
+325,Worthing,5762,5.33,7.35,South East,Predominantly Urban,0.32246537145398535
+326,Wrexham,6682,5.1,7.88,Wales,Welsh/not specified,0.14457279135042608
+327,Wychavon,6065,4.71,6.15,West Midlands,Predominantly Rural,0.07270254541976233
+328,Wyre,1376,1.26,6.1,North West,Predominantly Rural,0.07543135159113903
+329,Wyre Forest,2331,2.36,6.91,West Midlands,Urban with Significant Rural,0.12684464054988365
+330,York,10061,5.09,7.91,Yorkshire and The Humber,Predominantly Urban,0.22381731628778365
