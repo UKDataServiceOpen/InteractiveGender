@@ -1,9 +1,9 @@
-Religion_categories,Observation,Percentages
-Buddhist,245514,0.54
-Christian,23656564,51.78
-Hindu,823132,1.8
-Jewish,213617,0.47
-Muslim,2664709,5.83
-No religion,17355645,37.98
-Other religion,314939,0.69
-Sikh,416797,0.91
+Religion_categories,Observation,NR_rate,Per_Total
+Buddhist,18331,7.47,0.82
+Christian,1054454,4.46,47.25
+Hindu,61226,7.44,2.74
+Jewish,18054,8.45,0.81
+Muslim,217981,8.18,9.77
+No religion,800983,4.62,35.89
+Other religion,31589,10.03,1.42
+Sikh,28884,6.93,1.29

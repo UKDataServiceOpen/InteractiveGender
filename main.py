@@ -1,31 +1,26 @@
 #Import relevant packages
 
-import os
 # provides a means for interacting with the underlying operating system
-import pandas as pd
+import os
 # includes functions for manipulating data - getting it into the right format for graphs
-import numpy as np
+import pandas as pd
 # includes functions for performing mathematical operations
-import matplotlib.pylab as plt
+import numpy as np
 # plotting library with functions for visualisations
+import matplotlib.pylab as plt
 
-# Bokeh - a data visualisation library
+
+# Bokeh - used to create interactive visualisations
 from bokeh.io import show, curdoc, output_notebook
 from bokeh.layouts import column, row
 from bokeh.models import (
     ColumnDataSource,
-    Label,
-    LabelSet,
-    CheckboxGroup,
-    CustomJS,
-    Button,
     Spacer,
     Select,
     HTMLTemplateFormatter,
-    NumberFormatter,
     BasicTicker,
     PrintfTickFormatter,
-    LogColorMapper,
+    LinearColorMapper,
     ColorBar,
 )
 from bokeh.models.widgets import DataTable, TableColumn, Div
@@ -33,41 +28,30 @@ from bokeh.plotting import figure
 from bokeh.palettes import Category10, Colorblind
 from bokeh.transform import factor_cmap
 
-
+# Set environment variable to inline 
+# Tells Python program to package all the things needed to display our Bokeh plots inside the HTML file itself
 os.environ['BOKEH_RESOURCES'] = "inline"
 
 
 #  Read-in the pre-processed data
 current_dir = os.getcwd()
+print(current_dir)
 data_dir = os.path.join(current_dir, 'Data')
 os.chdir(data_dir)
 
-# df without urban-rural classification
-df = pd.read_csv('cleaned_lang_SO.csv')
+# read-in SO data for first scatterplot
+df = pd.read_csv('final_lang_so.csv')
 
 # Let's take a quick glance
 
 df.head()
 
-# df with urban-rural classification
-df2 = pd.read_csv('urban_rural_SO.csv')
+# Read-in GI data for first scatterplot
 
-# Let's take a quick glance
-# IMPORTANT: we only have urb_rural classification for ENGLISH LA's
-df2.head()
-
-# Read-in GI
-
-df_gi = pd.read_csv('cleaned_lang_GI.csv')
+df_gi = pd.read_csv('final_lang_gi.csv')
 
 df_gi.head()
 
-# df with urban-rural classification
-df2_gi = pd.read_csv('urban_rural_GI.csv')
-
-# Let's take a quick glance
-# IMPORTANT: we only have urb_rural classification for ENGLISH LA's
-df2_gi.head()
 
 # Interactive scatterplots
 
@@ -78,27 +62,18 @@ df2_gi.head()
 colorblind = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#999999']
 
 
-df['Urb_Rur'] = df2['Urb_Rur']
-
-df_gi['Urb_Rur'] = df2_gi['Urb_Rur']
-
-
 output_notebook()
 
 # Prepare data sources
-
-df = df.rename(columns={'Non-response_rate': 'Non_response_rate'})
-df_gi = df_gi.rename(columns={'Non-response_rate': 'Non_response_rate'})
-
-
-df['Urb_Rur'] = df['Urb_Rur'].astype(str)
 source = ColumnDataSource(df)
-
-# Prepare data sources for second set of graphs
-df_gi['Urb_Rur'] = df_gi['Urb_Rur'].astype(str)
 source2 = ColumnDataSource(df_gi)
 
+df['Urb_Rur'] = df['Urb_Rur'].astype(str)
+df_gi['Urb_Rur'] = df_gi['Urb_Rur'].astype(str)
+
+
 okabe_ito = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#999999']
+
 
 # Define tooltips
 tool = [
@@ -110,7 +85,7 @@ tool = [
 p0 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
            y_axis_label = "Non-response rate", tooltips = tool)
 
-p0.scatter("Percentage", "Non_response_rate", source=source, fill_alpha=0.5, size=10)
+p0.scatter("Non_Eng_Percentages", "NR_rate", source=source, fill_alpha=0.5, size=10)
 
 # Plot 1 (By Region)
 p1 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
@@ -118,10 +93,10 @@ p1 = figure(title="Relationship between Non-response Rate and Non-English Speake
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-for (idx, region) in enumerate(df.region_x.unique()):
-    b = df[df.region_x == region]
+for (idx, region) in enumerate(df.region.unique()):
+    b = df[df.region == region]
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
-    p1.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
+    p1.circle(x='Non_Eng_Percentages', y='NR_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(b))
 
 p1.legend.location = "bottom_right"
@@ -141,7 +116,7 @@ for urb_rur in df.Urb_Rur.unique():
 
 for (idx, urb_rur) in enumerate(df.Urb_Rur.unique()):
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
-    p_2.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
+    p_2.circle(x='Non_Eng_Percentages', y='NR_rate', size=10, alpha=0.5, color=color,
                legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
 p_2.legend.location = "bottom_right"
@@ -160,14 +135,14 @@ si_tool = [
 # Plot 3 (Shannon Index)
 
 
-color_map = LogColorMapper(palette="Viridis256", low=df.Shannon_idx.min(), high=df.Shannon_idx.max())
+color_map = LinearColorMapper(palette="Viridis256", low=df.Shannon_idx.min(), high=df.Shannon_idx.max())
 
 p3 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Non-response Rate",
             y_axis_label="Percentage of Non-English Speakers",
             tooltips=si_tool)
 
-p3.scatter("Percentage", "Non_response_rate", source=source, fill_alpha=0.5, size=10,
+p3.scatter("Non_Eng_Percentages", "NR_rate", source=source, fill_alpha=0.5, size=10,
            color={'field': 'Shannon_idx', 'transform': color_map})
 
 color_bar = ColorBar(color_mapper=color_map,
@@ -180,19 +155,19 @@ p3.add_layout(color_bar, 'right')
 p4 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
            y_axis_label = "Non_response rate", tooltips = tool)
 
-p4.scatter("Percentage", "Non_response_rate", source=source2, fill_alpha=0.5, size=10)
+p4.scatter("Non_Eng_Percentages", "NR_rate", source=source2, fill_alpha=0.5, size=10)
 
-# Plot 1 (By Region)
+
 # Plot 1 (By Region)
 p5 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-for (idx, region) in enumerate(df_gi.region_x.unique()):
-    c = df_gi[df_gi.region_x == region]
+for (idx, region) in enumerate(df_gi.region.unique()):
+    c = df_gi[df_gi.region == region]
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
-    p5.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
+    p5.circle(x='Non_Eng_Percentages', y='NR_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(c))
 
 p5.legend.location = "bottom_right"
@@ -209,7 +184,7 @@ urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource ob
 for (idx, urb_rur) in enumerate(df_gi.Urb_Rur.unique()):
     urban_rural_sources[urb_rur] = ColumnDataSource(df_gi[df_gi.Urb_Rur == urb_rur])
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
-    p6.circle(x='Percentage', y='Non_response_rate', size=10, alpha=0.5, color=color,
+    p6.circle(x='Non_Eng_Percentages', y='NR_rate', size=10, alpha=0.5, color=color,
               legend_label=urb_rur, source=urban_rural_sources[urb_rur])
 
 p6.legend.location = "bottom_right"
@@ -219,14 +194,14 @@ p6.legend.title = "Urban-Rural"
 
 
 # Plot 3 (Shannon Index)
-color_map = LogColorMapper(palette="Viridis256", low=df_gi.Shannon_idx.min(), high=df_gi.Shannon_idx.max())
+color_map = LinearColorMapper(palette="Viridis256", low=df_gi.Shannon_idx.min(), high=df_gi.Shannon_idx.max())
 
 p7 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Non-response Rate",
             y_axis_label="Percentage of Non-English Speakers",
             tooltips=si_tool)
 
-p7.scatter("Percentage", "Non_response_rate", source=source2, fill_alpha=0.5, size=10,
+p7.scatter("Non_Eng_Percentages", "NR_rate", source=source2, fill_alpha=0.5, size=10,
            color={'field': 'Shannon_idx', 'transform': color_map})
 
 color_bar = ColorBar(color_mapper=color_map,
@@ -360,31 +335,26 @@ layout = row(layout1, layout2, default_description, shannon_description, urban_d
 
 # Read-in pre-processed data for religion
 
-rel = pd.read_csv('cleaned_religion_SO.csv')
+rel = pd.read_csv('religion_so_cleaned.csv')
 
 # Read-in totals and non-response by religion
 
-totals = pd.read_csv('gen_totals_SO.csv')
+totals = pd.read_csv('rel_totals_so.csv')
 
-totals = totals.sort_values(by = "Percent_of_survey_respondents", ascending = False)
 
 # Read-in Non-response table
 
-nr_totals = pd.read_csv('nr_totals_SO.csv')
+nr_totals = pd.read_csv('rel_nr_totals_so.csv')
 
-nr_totals = nr_totals.sort_values(by = "Contribution_to_overall_non_response_rate", ascending = False)
 
 # Read-in GI data
 
-rel_2 = pd.read_csv('cleaned_religion_GI.csv')
+rel_2 = pd.read_csv('religion_gi_cleaned.csv')
 
-totals_2 = pd.read_csv('gen_totals_GI.csv')
+totals_2 = pd.read_csv('rel_totals_gi.csv')
 
-totals_2 = totals_2.sort_values(by = "Percent_of_survey_respondents", ascending = False)
 
-nr_totals_2 = pd.read_csv('nr_totals_GI.csv')
-
-nr_totals_2 = nr_totals_2.sort_values(by = "Contribution_to_overall_non_response_rate", ascending = False)
+nr_totals_2 = pd.read_csv('rel_nr_totals_gi.csv')
 
 
 
@@ -428,9 +398,9 @@ default_description_2 = Div(text="""
 source1 = ColumnDataSource(totals)
 
 columns1 = [
-    TableColumn(field="Religion_categories", title="Totals", formatter=create_formatter('Christian')),
+    TableColumn(field="Religion_categories", title="Religion", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
-    TableColumn(field="Percent_of_survey_respondents", title="% of respondents", formatter=create_formatter('Christian')),
+    TableColumn(field="Percentages", title="% of respondents", formatter=create_formatter('Christian')),
 ]
 
 layout_1, data_table1 = create_datatable(source1, columns1)
@@ -439,10 +409,10 @@ layout_1, data_table1 = create_datatable(source1, columns1)
 source_2 = ColumnDataSource(nr_totals)
 
 columns2 = [
-    TableColumn(field="Religion_categories", title="Non-response rates", formatter=create_formatter('Christian')),
+    TableColumn(field="Religion_categories", title="Religion", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
-    TableColumn(field="Non_response_rate", title="Non response rate", formatter=create_formatter('Christian')),
-    TableColumn(field="Contribution_to_overall_non_response_rate", title="% of total Non-response", formatter=create_formatter('Christian')),
+    TableColumn(field="NR_rate", title="Non-response rate", formatter=create_formatter('Christian')),
+    TableColumn(field="Per_Total", title="% of total Non-response", formatter=create_formatter('Christian')),
 ]
 
 layout_2, data_table2 = create_datatable(source_2, columns2)
@@ -452,7 +422,7 @@ source_3 = ColumnDataSource(totals_2)
 columns3 = [
     TableColumn(field="Religion_categories", title="Totals", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
-    TableColumn(field="Percent_of_survey_respondents", title="% of respondents", formatter=create_formatter('Christian')),
+    TableColumn(field="Percentages", title="% of respondents", formatter=create_formatter('Christian')),
 ]
 
 layout_3, data_table3 = create_datatable(source_3, columns3)
@@ -460,20 +430,20 @@ layout_3, data_table3 = create_datatable(source_3, columns3)
 source_4 = ColumnDataSource(nr_totals_2)
 
 columns4 = [
-    TableColumn(field="Religion_categories", title="Non-response rates", formatter=create_formatter('Christian')),
+    TableColumn(field="Religion_categories", title="Religion", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
-    TableColumn(field="Non_response_rate", title="Non response rate", formatter=create_formatter('Christian')),
-    TableColumn(field="Contribution_to_overall_non_response_rate", title="% of total Non-response", formatter=create_formatter('Christian')),
+    TableColumn(field="NR_rate", title="Non-response rate", formatter=create_formatter('Christian')),
+    TableColumn(field="Per_Total", title="% of total Non-response", formatter=create_formatter('Christian')),
 ]
 
 layout_4, data_table4 = create_datatable(source_4, columns4)
 
+
 # Scatter plot
-output_notebook()
 
 # Prepare data
-rel['selected_religion'] = rel['Christian_%']  # Default religion
-rel['selected_percentages'] = rel['Group_Percentages_Christian']
+rel['selected_religion'] = rel['Christian_Percentage']  # Default religion
+rel['selected_percentages'] = rel['Christian_NR']
 
 source = ColumnDataSource(rel)
 
@@ -492,8 +462,8 @@ p8 = figure(title="Relationship between % of religious group in given LA, and th
 p8.scatter("selected_religion", "selected_percentages", source=source, fill_alpha=0.5, size=10)
 
 # Prepare data
-rel_2['selected_religion'] = rel_2['Christian_%']  # Default religion
-rel_2['selected_percentages'] = rel_2['Group_Percentages_Christian']
+rel_2['selected_religion'] = rel_2['Christian_Percentage']  # Default religion
+rel_2['selected_percentages'] = rel_2['Christian_NR']
 
 source_new = ColumnDataSource(rel_2)
 
@@ -558,10 +528,11 @@ update_highlighted_rows_2(select_religion_2.value)
 
 # Add sex dataset in
 
-so_tot = pd.read_csv('sex_totals_SO_2.csv')
-so_nr = pd.read_csv('nr_totals_SO_2.csv')
-gi_tot = pd.read_csv('sex_totals_GI_2.csv')
-gi_nr = pd.read_csv('nr_totals_GI_2.csv')
+so_tot = pd.read_csv('sex_tot_SO.csv')
+so_nr = pd.read_csv('sex_nr_SO.csv')
+gi_tot = pd.read_csv('sex_tot_GI.csv')
+gi_nr = pd.read_csv('sex_nr_GI.csv')
+
 
 bold_formatter = HTMLTemplateFormatter(template="""
     <div style="color: red; font-weight: bold;"><%= value %></div>
@@ -571,25 +542,25 @@ bold_formatter = HTMLTemplateFormatter(template="""
 sourc1 = ColumnDataSource(so_tot)
 
 columnz1 = [
-    TableColumn(field="Sex", title="Totals"),
-    TableColumn(field="Observation", title="Observation")]
+    TableColumn(field="Sex (2 categories)", title="Sex"),
+    TableColumn(field="Total_Observations", title="Total Observations")]
 
 ly1, table1 = create_datatable2(sourc1, columnz1)
 
 sourc2 = ColumnDataSource(so_nr)
 
 columnz2 = [
-    TableColumn(field="Sex", title="Non-response rates"),
-    TableColumn(field="Observation", title="Observation"),
-    TableColumn(field="Non_response_%", title="Non response rate", formatter = bold_formatter)]
+    TableColumn(field="Sex (2 categories)", title="Sex"),
+    TableColumn(field="NR_Total", title="NR Total"),
+    TableColumn(field="NR_rate", title="Non-response rate", formatter = bold_formatter)]
 
 ly2, table2 = create_datatable2(sourc2, columnz2)
 
 sourc3 = ColumnDataSource(gi_tot)
 
 columnz3 = [
-    TableColumn(field="Sex", title="Totals"),
-    TableColumn(field="Observation", title="Observation")]
+    TableColumn(field="Sex (2 categories)", title="Sex"),
+    TableColumn(field="Total_Observations", title="Total Observations")]
 
 ly3, table3 = create_datatable2(sourc3, columnz3)
 
@@ -598,9 +569,9 @@ ly3, table3 = create_datatable2(sourc3, columnz3)
 sourc4 = ColumnDataSource(gi_nr)
 
 columnz4 = [
-    TableColumn(field="Sex", title="Non-response rates"),
-    TableColumn(field="Observation", title="Observation"),
-    TableColumn(field="Non_response_%", title="Non response rate", formatter = bold_formatter)]
+    TableColumn(field="Sex (2 categories)", title="Sex"),
+    TableColumn(field="NR_Total", title="NR Total"),
+    TableColumn(field="NR_rate", title="Non-response rate", formatter = bold_formatter)]
 
 ly4, table4 = create_datatable2(sourc4, columnz4)
 
