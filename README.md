@@ -10,4 +10,8 @@ The 2021 UK census introduced questions on sexual orientation and gender identit
 
 You can see that we have two subfolders 'Python' and 'R', with the former including code for the interactive scatterplots and the latter focusing on interactive spatial visualisations. 
 
+## Cite it
+
+Interested in citing our research in one of your papers? Just want to snoop around and have a look at our metadata etc etc? Please find our Zenodo DOI below.
+
 [![DOI](https://zenodo.org/badge/590906957.svg)](https://zenodo.org/badge/latestdoi/590906957)
