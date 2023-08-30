@@ -1,4 +1,6 @@
-# InteractiveGender
+![UKDS Image](./Documents/Images/ukds.png)
+
+# Interactive Gender
 
 This repo contains materials relating to the project for IASSIST 2023, which focused on interactive visualisations for 2021 UK sexual orientation and gender identity data. For more information, please see the abstract below.
 
