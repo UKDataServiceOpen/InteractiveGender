@@ -12,4 +12,4 @@ If you want to go about this chronologically:
 5. **Outputs** - finally, these files are where we take our interactive Bokeh graphs to the next level, i.e, we add drop-downs and hook up the notebook to a local server.
 6. **main.py** - after outputs, we have our 'main.py' file which is located in the root folder of this repo. This is where we combine the outputs from SO and GI into one python script, which is hooked up to a local Bokeh server and then hosted remotely on Heroku. 
 
-Anything suffixed by SO relates to sexual orientation, and GI to gender identity.
+**Anything suffixed by SO relates to sexual orientation, and GI to gender identity.**
