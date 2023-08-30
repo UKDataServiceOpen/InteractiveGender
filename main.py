@@ -398,7 +398,7 @@ default_description_2 = Div(text="""
 source1 = ColumnDataSource(totals)
 
 columns1 = [
-    TableColumn(field="Religion_categories", title="Religion", formatter=create_formatter('Christian')),
+    TableColumn(field="Religion_categories", title="Totals", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
     TableColumn(field="Percentages", title="% of respondents", formatter=create_formatter('Christian')),
 ]
@@ -409,7 +409,7 @@ layout_1, data_table1 = create_datatable(source1, columns1)
 source_2 = ColumnDataSource(nr_totals)
 
 columns2 = [
-    TableColumn(field="Religion_categories", title="Religion", formatter=create_formatter('Christian')),
+    TableColumn(field="Religion_categories", title="Non-response rates", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
     TableColumn(field="NR_rate", title="Non-response rate", formatter=create_formatter('Christian')),
     TableColumn(field="Per_Total", title="% of total Non-response", formatter=create_formatter('Christian')),
@@ -430,7 +430,7 @@ layout_3, data_table3 = create_datatable(source_3, columns3)
 source_4 = ColumnDataSource(nr_totals_2)
 
 columns4 = [
-    TableColumn(field="Religion_categories", title="Religion", formatter=create_formatter('Christian')),
+    TableColumn(field="Religion_categories", title="Non-response rates", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
     TableColumn(field="NR_rate", title="Non-response rate", formatter=create_formatter('Christian')),
     TableColumn(field="Per_Total", title="% of total Non-response", formatter=create_formatter('Christian')),
@@ -501,15 +501,15 @@ def update_highlighted_rows_2(selected_religion):
 
 def update_plot(attr, old, new):
     selected_religion = select_religion.value
-    rel['selected_religion'] = rel[f'{selected_religion}_%']
-    rel['selected_percentages'] = rel[f'Group_Percentages_{selected_religion}']
+    rel['selected_religion'] = rel[f'{selected_religion}_Percentage']
+    rel['selected_percentages'] = rel[f'{selected_religion}_NR']
     source.data = source.from_df(rel)
     update_highlighted_rows(selected_religion)
 
 def update_plot_2(attr, old, new):
     selected_religion = select_religion_2.value
-    rel_2['selected_religion'] = rel_2[f'{selected_religion}_%']
-    rel_2['selected_percentages'] = rel_2[f'Group_Percentages_{selected_religion}']
+    rel_2['selected_religion'] = rel_2[f'{selected_religion}_Percentage']
+    rel_2['selected_percentages'] = rel_2[f'{selected_religion}_NR']
     source_new.data = source_new.from_df(rel_2)
     update_highlighted_rows_2(selected_religion)    
     
