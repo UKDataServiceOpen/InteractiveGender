@@ -515,7 +515,7 @@ def update_plot_2(attr, old, new):
     
     
 # Create select widget
-options = ['Christian', 'No religion', 'Muslim', 'Jewish', 'Buddhist', 'Hindu', 'Sikh', 'Other']
+options = ['Christian', 'No religion', 'Muslim', 'Jewish', 'Buddhist', 'Hindu', 'Sikh', 'Other religion']
 select_religion = Select(title="Religious Group:", value='Christian', options=options)
 select_religion.on_change('value', update_plot)
 
