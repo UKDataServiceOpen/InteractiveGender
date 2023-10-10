@@ -455,6 +455,7 @@ layout_4, data_table4 = create_datatable(source_4, columns4)
 
 
 # Scatter plot
+output_notebook()
 
 # Prepare data
 rel['selected_religion'] = rel['Christian_Percentage']  # Default religion
