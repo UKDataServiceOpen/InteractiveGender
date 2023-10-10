@@ -34,6 +34,7 @@ os.environ['BOKEH_RESOURCES'] = "inline"
 #  Read-in the pre-processed data
 current_dir = os.getcwd()
 data_dir = os.path.join(current_dir, 'Data')
+os.chdir(data_dir)
 
 # read-in SO data for first scatterplot
 df = pd.read_csv('final_lang_so.csv')
