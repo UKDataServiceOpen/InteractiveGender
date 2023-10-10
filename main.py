@@ -68,7 +68,7 @@ okabe_ito = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '
 # Define tooltips
 tool = [
     ("index", "$index"),
-    ("(x,y)", "(@Percentage{0.2f}, @Non_response_rate{0.2f})"),
+    ("(x,y)", "(@Non_Eng_Percentages{0.2f}, @NR_rate{0.2f})"),
     ("name", "@LA_name"),
 ]
 
