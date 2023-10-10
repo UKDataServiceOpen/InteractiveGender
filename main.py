@@ -11,7 +11,7 @@ import matplotlib.pylab as plt
 
 
 # Bokeh - used to create interactive visualisations
-from bokeh.io import show, curdoc, output_notebook
+from bokeh.io import curdoc, output_notebook
 from bokeh.layouts import column, row
 from bokeh.models import (
     ColumnDataSource,
@@ -25,8 +25,6 @@ from bokeh.models import (
 )
 from bokeh.models.widgets import DataTable, TableColumn, Div
 from bokeh.plotting import figure
-from bokeh.palettes import Category10, Colorblind
-from bokeh.transform import factor_cmap
 
 # Set environment variable to inline 
 # Tells Python program to package all the things needed to display our Bokeh plots inside the HTML file itself
@@ -35,42 +33,33 @@ os.environ['BOKEH_RESOURCES'] = "inline"
 
 #  Read-in the pre-processed data
 current_dir = os.getcwd()
-print(current_dir)
 data_dir = os.path.join(current_dir, 'Data')
-os.chdir(data_dir)
 
 # read-in SO data for first scatterplot
 df = pd.read_csv('final_lang_so.csv')
 
-# Let's take a quick glance
-
-df.head()
 
 # Read-in GI data for first scatterplot
 
 df_gi = pd.read_csv('final_lang_gi.csv')
 
-df_gi.head()
 
 
 # Interactive scatterplots
 
-## Shows the relationship between the % of Non-English speakers and % of Non-response for our 331 Local Authorities in England and Wales.
+# STARTING WITH MAIN LANGUAGE SCATTERPLOTS
 
-### COLOURED BY REGION
-
-colorblind = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#999999']
-
-
-output_notebook()
 
 # Prepare data sources
 source = ColumnDataSource(df)
 source2 = ColumnDataSource(df_gi)
 
+# Set column type
+
 df['Urb_Rur'] = df['Urb_Rur'].astype(str)
 df_gi['Urb_Rur'] = df_gi['Urb_Rur'].astype(str)
 
+# Colourblind palette 
 
 okabe_ito = ['#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2', '#D55E00', '#CC79A7', '#999999']
 
@@ -82,49 +71,64 @@ tool = [
     ("name", "@LA_name"),
 ]
 
+# CREATE PLOTS FOR GI FIRST
+
+# Create first default graph figure, set title and x and y labels
 p0 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
            y_axis_label = "Non-response rate", tooltips = tool)
 
+# Create scatterplot with x and y values from columns
 p0.scatter("Non_Eng_Percentages", "NR_rate", source=source, fill_alpha=0.5, size=10)
 
-# Plot 1 (By Region)
+# Plot 1 (dps coloured by region)
 p1 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
+# Loop through each unique region in our df, specifying index too
 for (idx, region) in enumerate(df.region.unique()):
+    # Subset df for unique region
     b = df[df.region == region]
-    color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
+    # Set colour for region by cycling through colours
+    color = okabe_ito[idx % len(okabe_ito)]
+    # Plot circle on scatterplot for each dp in 'b', our subsetted df
     p1.circle(x='Non_Eng_Percentages', y='NR_rate', size=10, alpha=0.5, color=color,
               legend_label=region, muted_color=color, muted_alpha=0.1, source=ColumnDataSource(b))
 
+# Set legend attributes
 p1.legend.location = "bottom_right"
+# Specifies click policy, i.e., hides dps when user clicks on specific region in legend
 p1.legend.click_policy = "hide"
 p1.legend.title = "Regions"
 
 
-# Plot 2 (Urban vs Rural)
+# Plot 2 (dps coloured by urban-rural classification)
 p_2 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource objects
+# Create dictionary to store filtered data
+urban_rural_sources = {} 
+# Loop through each unique urban-rural classification
 for urb_rur in df.Urb_Rur.unique():
+    # Store subset dataframe as a CDS in dictionary key
     urban_rural_sources[urb_rur] = ColumnDataSource(df[df.Urb_Rur == urb_rur])
 
+# Same process as for the region dps, except uses our dictionary with filtered df as its source
 for (idx, urb_rur) in enumerate(df.Urb_Rur.unique()):
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
     p_2.circle(x='Non_Eng_Percentages', y='NR_rate', size=10, alpha=0.5, color=color,
                legend_label=urb_rur, muted_color=color, muted_alpha=0.1, source=urban_rural_sources[urb_rur])
 
+# Set legend attributes
 p_2.legend.location = "bottom_right"
 p_2.legend.click_policy = "hide"
 p_2.legend.title = "Urban-Rural"
 
 
-# Define tooltips for Shannon plot
+# Define separate tooltips for Shannon plot
 si_tool = [
     ("index", "$index"),
     ("(x,y)", "(@Percentage{0.2f}, @Non_response_rate{0.2f})"),
@@ -132,33 +136,39 @@ si_tool = [
     ("SI", "@Shannon_idx{0.2f}")
 ]
 
-# Plot 3 (Shannon Index)
 
+# Set colour map with palette set colour range using min and max values
+colour_map = LinearColorMapper(palette="Viridis256", low=df.Shannon_idx.min(), high=df.Shannon_idx.max())
 
-color_map = LinearColorMapper(palette="Viridis256", low=df.Shannon_idx.min(), high=df.Shannon_idx.max())
-
+# Plot 3 (dps coloured by Shannon Index)
 p3 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Non-response Rate",
             y_axis_label="Percentage of Non-English Speakers",
             tooltips=si_tool)
 
+# Plot dps and set colour using dictionary
 p3.scatter("Non_Eng_Percentages", "NR_rate", source=source, fill_alpha=0.5, size=10,
-           color={'field': 'Shannon_idx', 'transform': color_map})
+           color={'field': 'Shannon_idx', 'transform': colour_map})
 
-color_bar = ColorBar(color_mapper=color_map,
+# Create ColorBar by using color_map from above
+colour_bar = ColorBar(color_mapper=colour_map,
                      title='Shannon Index',
                      ticker=BasicTicker(desired_num_ticks=5),
                      formatter=PrintfTickFormatter(format='%.2f'))
 
-p3.add_layout(color_bar, 'right')
+# Add color_bar to the right of the p3 scatterplot layout
+p3.add_layout(colour_bar, 'right')
 
+# CREATE PLOTS FOR SO SECOND
+
+# Create default plot
 p4 = figure(title = "Relationship between Non-response Rate and Non-English Speakers", x_axis_label = "Percentage of Non-English Speakers",
            y_axis_label = "Non_response rate", tooltips = tool)
 
 p4.scatter("Non_Eng_Percentages", "NR_rate", source=source2, fill_alpha=0.5, size=10)
 
 
-# Plot 1 (By Region)
+# Plot 1 (dps coloured by region)
 p5 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
             y_axis_label="Non-response Rate",
@@ -174,13 +184,13 @@ p5.legend.location = "bottom_right"
 p5.legend.click_policy = "hide"
 p5.legend.title = "Regions"
 
-# Plot 2 (Urban vs Rural)
+# Plot 2 (dps coloured by urban vs rural)
 p6 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
             x_axis_label="Percentage of Non-English Speakers",
             y_axis_label="Non-response Rate",
             tooltips=tool)
 
-urban_rural_sources = {}  # Create a dictionary to store the ColumnDataSource objects
+urban_rural_sources = {}  
 for (idx, urb_rur) in enumerate(df_gi.Urb_Rur.unique()):
     urban_rural_sources[urb_rur] = ColumnDataSource(df_gi[df_gi.Urb_Rur == urb_rur])
     color = okabe_ito[idx % len(okabe_ito)]  # cycle through colors
@@ -193,7 +203,7 @@ p6.legend.title = "Urban-Rural"
 
 
 
-# Plot 3 (Shannon Index)
+# Plot 3 (dps coloured by Shannon Index)
 color_map = LinearColorMapper(palette="Viridis256", low=df_gi.Shannon_idx.min(), high=df_gi.Shannon_idx.max())
 
 p7 = figure(title="Relationship between Non-response Rate and Non-English Speakers",
@@ -211,9 +221,12 @@ color_bar = ColorBar(color_mapper=color_map,
 
 p7.add_layout(color_bar, 'right')
 
-# Dropdown menu
+# Create dropdown menu for GI and SO scatterplots
+
 dropdown = Select(title="Color By:", value="None", options=["Default", "Region", "Urban", "Shannon Index"])
 dropdown2 = Select(title="Color By:", value="None", options=["Default", "Region", "Urban", "Shannon Index"])
+
+# Create default descriptions using HTML
 
 default_description = Div(text="""
 <h2>Scatterplot Interaction Tips:</h2>
@@ -238,7 +251,8 @@ urban_description = Div(text="""<h3>Urban-Rural Classification</h3>
 width=300, height=200, css_classes=["urban-description"])
 
 
-# Define the update function
+# Define the update functions for our first set of scatterplots
+# Toggle visibility when different plot is selected from drop-down
 def update_scatterplots(attr, old, new):
     if dropdown.value == "Default":
         p0.visible = True
@@ -301,7 +315,7 @@ def update_scatterplots2(attr, old, new):
         shannon_description.visible = True
         urban_description.visible = False
 
-# Set initial visibility
+# Set initial visibility, i.e., what we first see when we open the app
 p0.visible = True
 p1.visible = False
 p_2.visible = False
@@ -313,37 +327,35 @@ p5.visible = False
 p6.visible = False
 p7.visible = False
 
+# Set initial visibility for HTML descriptions
 default_description.visible = True
 shannon_description.visible = False
 urban_description.visible = False
 
-# Add the callback to the dropdown menu
+# Add the callback to the dropdown menu, triggers action when user interacts with graphs
 dropdown.on_change('value', update_scatterplots)
-
 dropdown2.on_change('value', update_scatterplots2)
 
-# # Create a layout with the dropdown menu and the scatterplots
+
+# Create main HTML headings to appear at top of web application
 
 heading_sexual_orientation = Div(text="<h1>Sexual orientation</h1>", width=400)
 heading_gender_identity = Div(text="<h1>Gender identity</h1>", width=400)
 
-# Create layouts with headings
+# Create layouts with headings, dropdowns and scatterplots in specific arrangement
 layout1 = column(heading_sexual_orientation, dropdown, p0, p1, p_2, p3)
 layout2 = column(heading_gender_identity, dropdown2, p4, p5, p6, p7)
 
 layout = row(layout1, layout2, default_description, shannon_description, urban_description)
 
-# Read-in pre-processed data for religion
+# MOVING ONTO RELIGION SCATTERPLOTS
+
+# Read-in SO data
 
 rel = pd.read_csv('religion_so_cleaned.csv')
 
 # Read-in totals and non-response by religion
-
 totals = pd.read_csv('rel_totals_so.csv')
-
-
-# Read-in Non-response table
-
 nr_totals = pd.read_csv('rel_nr_totals_so.csv')
 
 
@@ -351,14 +363,15 @@ nr_totals = pd.read_csv('rel_nr_totals_so.csv')
 
 rel_2 = pd.read_csv('religion_gi_cleaned.csv')
 
+# Read-in totals and non-response
 totals_2 = pd.read_csv('rel_totals_gi.csv')
-
-
 nr_totals_2 = pd.read_csv('rel_nr_totals_gi.csv')
 
+# Interactive DataTables
 
+# STARTING WITH SO FIRST
 
-# Custom cell formatter
+# Create template for custom cell formatter
 template = """
 <% if (Religion_categories == selected_religion) { %>
     <span style="color: red; font-weight: bold"><%= value %></span>
@@ -367,11 +380,12 @@ template = """
 <% } %>
 """
 
-
+# Create custom cell formatter which inserts the specific religion chosen by user from drop-down
 def create_formatter(selected_religion):
     formatter = HTMLTemplateFormatter(template=template.replace("selected_religion", f"'{selected_religion}'"))
     return formatter
 
+# Create custom functions to create DataTables using our total and non-response dataframes
 def create_datatable(source, columns):
     heading = Div(text=f"<h1>{columns[0].title}</h1>", width=300)
     data_table = DataTable(source=source, columns=columns, editable=False, width=500, index_position=None)
@@ -383,7 +397,7 @@ def create_datatable2(source, columns):
     return column(heading, data_table), data_table
 
 
-
+# Set HTML description explaining how to interact with DataTables
 default_description_2 = Div(text="""
 <h2>DataTable Interaction Tips:</h2>
 <ul>
@@ -394,9 +408,10 @@ default_description_2 = Div(text="""
 """, width=500)
 
 
-# Create DataTable for layout1
+# Set source for DataTable - using totals df
 source1 = ColumnDataSource(totals)
 
+# Set column information and set default formatter to make 'Christian' bold
 columns1 = [
     TableColumn(field="Religion_categories", title="Totals", formatter=create_formatter('Christian')),
     TableColumn(field="Observation", title="Observation", formatter=create_formatter('Christian')),
